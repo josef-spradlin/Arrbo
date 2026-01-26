@@ -1,0 +1,3 @@
+psycopg[binary]
+nba_api
+selenium

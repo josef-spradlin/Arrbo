@@ -1,0 +1,53 @@
+services:
+  db:
+    image: postgres:16
+    container_name: arrbo-postgres
+    env_file: .env
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "${POSTGRES_PORT}:5432"
+    volumes:
+      - arrbo_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  api:
+    build:
+      context: ./backend-springboot
+      dockerfile: Dockerfile
+    container_name: arrbo-api
+    env_file: .env
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "${SPRING_PORT}:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/${POSTGRES_DB}
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
+
+  ingest:
+    build:
+      context: ./ingestion-python
+      dockerfile: Dockerfile
+    container_name: arrbo-ingest
+    env_file: .env
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      # IMPORTANT: inside compose, the postgres host is the service name "db"
+      PGHOST: db
+      POSTGRES_PORT: 5432
+    command: ["python", "-m", "arrbo_ingest", "all", "--season", "2024-25"]
+    restart: "no"
+
+volumes:
+  arrbo_pgdata:
