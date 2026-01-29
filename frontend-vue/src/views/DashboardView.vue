@@ -1,33 +1,12 @@
-<template>
-  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
-    <section>
-      <h2 style="margin: 0 0 8px;">Today ({{ today }})</h2>
-
-      <div v-if="gamesStore.isLoading(today)">Loading...</div>
-      <div v-else-if="gamesStore.error(today)" style="color: #b00020;">
-        {{ gamesStore.error(today) }}
-      </div>
-      <GameList v-else :games="gamesStore.gamesForDate(today)" />
-    </section>
-
-    <section>
-      <h2 style="margin: 0 0 8px;">Tomorrow ({{ tomorrow }})</h2>
-
-      <div v-if="gamesStore.isLoading(tomorrow)">Loading...</div>
-      <div v-else-if="gamesStore.error(tomorrow)" style="color: #b00020;">
-        {{ gamesStore.error(tomorrow) }}
-      </div>
-      <GameList v-else :games="gamesStore.gamesForDate(tomorrow)" />
-    </section>
-  </div>
-</template>
-
 <script setup lang="ts">
-import { computed, onMounted } from 'vue'
-import GameList from '../components/GameList.vue'
-import { useGamesStore } from '../stores/games'
+import { computed, onMounted, ref } from 'vue'
+import { useGamesStore } from '@/stores/games'
+import { usePlayersStore } from '@/stores/players'
+import GameList from '@/components/GameList.vue'
+import MatchupCard from '@/components/MatchupCard.vue'
+import PlayerTable from '@/components/PlayerTable.vue'
 
-function formatLocalDateYYYYMMDD(d: Date): string {
+function yyyyMmDd(d: Date) {
   const y = d.getFullYear()
   const m = String(d.getMonth() + 1).padStart(2, '0')
   const day = String(d.getDate()).padStart(2, '0')
@@ -35,18 +14,55 @@ function formatLocalDateYYYYMMDD(d: Date): string {
 }
 
 const gamesStore = useGamesStore()
+const playersStore = usePlayersStore()
 
-const today = computed(() => formatLocalDateYYYYMMDD(new Date()))
-const tomorrow = computed(() => {
-  const d = new Date()
-  d.setDate(d.getDate() + 1)
-  return formatLocalDateYYYYMMDD(d)
-})
+const today = ref(yyyyMmDd(new Date()))
+const tomorrow = ref(yyyyMmDd(new Date(Date.now() + 24 * 60 * 60 * 1000)))
 
 onMounted(async () => {
-  await Promise.all([
-    gamesStore.fetchGames(today.value),
-    gamesStore.fetchGames(tomorrow.value),
-  ])
+  await Promise.all([gamesStore.load(today.value), gamesStore.load(tomorrow.value)])
 })
+
+const todayGames = computed(() => gamesStore.gamesByDate[today.value] ?? [])
+const tomorrowGames = computed(() => gamesStore.gamesByDate[tomorrow.value] ?? [])
+
+async function onSelectGame(game: any) {
+  await playersStore.selectGame(game)
+}
 </script>
+
+<template>
+  <div style="display: grid; grid-template-columns: 320px 1fr; gap: 16px; padding: 16px;">
+    <div>
+      <h2>Today ({{ today }})</h2>
+      <GameList :games="todayGames" @select="onSelectGame" />
+
+      <h2 style="margin-top: 16px;">Tomorrow ({{ tomorrow }})</h2>
+      <GameList :games="tomorrowGames" @select="onSelectGame" />
+
+      <div v-if="gamesStore.error" style="color: red; margin-top: 12px;">
+        {{ gamesStore.error }}
+      </div>
+    </div>
+
+    <div>
+      <h2>Matchup Insights</h2>
+
+      <div v-if="!playersStore.selectedGame" style="opacity: 0.7;">
+        Click a game to generate predictions.
+      </div>
+
+      <div v-else>
+        <MatchupCard
+          :game="playersStore.selectedGame"
+          :leaders="playersStore.leaders"
+          :loading="playersStore.loading"
+          :error="playersStore.error"
+        />
+
+        <h3 style="margin-top: 16px;">Projected Player Table</h3>
+        <PlayerTable :rows="playersStore.matchupPlayers" />
+      </div>
+    </div>
+  </div>
+</template>

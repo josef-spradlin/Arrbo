@@ -1,13 +1,21 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import DashboardView from '../views/DashboardView.vue'
-import GameCompareView from '../views/GameCompareView.vue'
+import DashboardView from '@/views/DashboardView.vue'
+import GameCompareView from '@/views/GameCompareView.vue'
 
-const router = createRouter({
+export default createRouter({
   history: createWebHistory(),
   routes: [
     { path: '/', name: 'dashboard', component: DashboardView },
-    { path: '/compare/:gameId', name: 'compare', component: GameCompareView, props: true },
+    {
+      path: '/game/:gameId',
+      name: 'gameCompare',
+      component: GameCompareView,
+      props: route => ({
+        gameId: route.params.gameId,
+        home: route.query.home,
+        away: route.query.away,
+        date: route.query.date,
+      }),
+    },
   ],
 })
-
-export default router

@@ -1,41 +1,30 @@
-// src/stores/games.ts
 import { defineStore } from 'pinia'
-import type { GameDto, ISODate } from '../types/dto'
-import { getGamesByDate } from '../api/arrbo'
+import type { GameDto } from '@/types/dto'
+import { getGames } from '@/api/arrbo'
 
-type GamesState = {
-  byDate: Record<ISODate, GameDto[]>
-  loadingByDate: Record<ISODate, boolean>
-  errorByDate: Record<ISODate, string | null>
+type State = {
+  gamesByDate: Record<string, GameDto[]>
+  loading: boolean
+  error: string | null
 }
 
 export const useGamesStore = defineStore('games', {
-  state: (): GamesState => ({
-    byDate: {},
-    loadingByDate: {},
-    errorByDate: {},
+  state: (): State => ({
+    gamesByDate: {},
+    loading: false,
+    error: null,
   }),
 
-  getters: {
-    gamesForDate: (state) => (date: ISODate) => state.byDate[date] ?? [],
-    isLoading: (state) => (date: ISODate) => state.loadingByDate[date] ?? false,
-    error: (state) => (date: ISODate) => state.errorByDate[date] ?? null,
-  },
-
   actions: {
-    async fetchGames(date: ISODate, opts?: { force?: boolean }) {
-      const force = opts?.force ?? false
-      if (!force && this.byDate[date]?.length) return
-
-      this.loadingByDate[date] = true
-      this.errorByDate[date] = null
-
+    async load(date: string) {
       try {
-        this.byDate[date] = await getGamesByDate(date)
+        this.loading = true
+        this.error = null
+        this.gamesByDate[date] = await getGames(date)
       } catch (e: any) {
-        this.errorByDate[date] = e?.message ?? 'Failed to load games'
+        this.error = e?.message ?? 'Failed to load games'
       } finally {
-        this.loadingByDate[date] = false
+        this.loading = false
       }
     },
   },

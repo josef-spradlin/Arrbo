@@ -1,46 +1,185 @@
-// src/stores/players.ts
 import { defineStore } from 'pinia'
-import type { TopUsagePlayerDto } from '../types/dto'
-import { getTopUsagePlayers } from '../api/arrbo'
+import type {
+  DefensiveEfficiencyDto,
+  EnrichedPlayer,
+  GameDto,
+  MatchupLeaders,
+  PlayerAverageDto,
+  PlayerPositionDto,
+  UsagePlayerDto,
+} from '@/types/dto'
+import {
+  getAverages,
+  getDefensiveEfficiency,
+  getPositions,
+  getTopUsagePlayers,
+} from '@/api/arrbo'
 
-type PlayersState = {
-  topUsage: TopUsagePlayerDto[]
-  loadingTopUsage: boolean
-  topUsageError: string | null
+type State = {
+  usagePlayers: UsagePlayerDto[]
+  averages: PlayerAverageDto[]
+  positions: PlayerPositionDto[]
+  defense: DefensiveEfficiencyDto[]
+  loading: boolean
+  error: string | null
+
+  selectedGame: GameDto | null
+  matchupPlayers: EnrichedPlayer[]
+  leaders: MatchupLeaders | null
+}
+
+function normTeam(s: string | null | undefined) {
+  return (s ?? '').trim().toUpperCase()
 }
 
 export const usePlayersStore = defineStore('players', {
-  state: (): PlayersState => ({
-    topUsage: [],
-    loadingTopUsage: false,
-    topUsageError: null,
+  state: (): State => ({
+    usagePlayers: [],
+    averages: [],
+    positions: [],
+    defense: [],
+    loading: false,
+    error: null,
+
+    selectedGame: null,
+    matchupPlayers: [],
+    leaders: null,
   }),
 
   getters: {
-    topUsageByTeam: (state) => {
-      const map = new Map<number, TopUsagePlayerDto[]>()
-      for (const p of state.topUsage) {
-        const arr = map.get(p.teamId) ?? []
-        arr.push(p)
-        map.set(p.teamId, arr)
-      }
-      return map
+    homeRows: (state) => {
+      const home = normTeam(state.selectedGame?.homeTeamAbbr)
+      return home ? state.matchupPlayers.filter((p) => normTeam(p.teamAbbr) === home) : []
+    },
+    awayRows: (state) => {
+      const away = normTeam(state.selectedGame?.awayTeamAbbr)
+      return away ? state.matchupPlayers.filter((p) => normTeam(p.teamAbbr) === away) : []
     },
   },
 
   actions: {
-    async fetchTopUsage(opts?: { force?: boolean }) {
-      const force = opts?.force ?? false
-      if (!force && this.topUsage.length) return
+    async ensureDataLoaded() {
+      const [usagePlayers, averages, positions, defense] = await Promise.all([
+        getTopUsagePlayers(),
+        getAverages(),
+        getPositions(),
+        getDefensiveEfficiency(),
+      ])
 
-      this.loadingTopUsage = true
-      this.topUsageError = null
+      this.usagePlayers = usagePlayers
+      this.averages = averages
+      this.positions = positions
+      this.defense = defense
+    },
+
+    async loadMatchup(home: string, away: string, date?: string) {
+      const d = date ?? new Date().toISOString().slice(0, 10)
+
+      const game: GameDto = {
+        gameId: `${away}@${home}:${d}`,
+        gameDate: d,
+        homeTeamAbbr: home,
+        awayTeamAbbr: away,
+      }
+
+      await this.selectGame(game)
+    },
+
+    buildProjectionsForGame(game: GameDto) {
+      const homeAbbr = normTeam(game.homeTeamAbbr)
+      const awayAbbr = normTeam(game.awayTeamAbbr)
+
+      const usageRows = this.usagePlayers.filter((u) => {
+        const t = normTeam(u.teamAbbr)
+        return t === homeAbbr || t === awayAbbr
+      })
+
+      console.log('usageRows len', usageRows.length, 'home/away', homeAbbr, awayAbbr)
+
+
+      const avgByName = new Map(this.averages.map((a) => [a.playerName, a]))
+
+      const posByName = new Map(this.positions.map((p) => [p.playerName, p.position]))
+
+      const defByTeamPos = new Map(
+        this.defense.map((d) => [`${normTeam(d.teamAbbr)}::${d.position}`, d.defEff])
+      )
+
+      const enriched: EnrichedPlayer[] = usageRows.map((u) => {
+        const teamAbbr = normTeam(u.teamAbbr)
+        const opponentAbbr = teamAbbr === homeAbbr ? awayAbbr : homeAbbr
+
+        const position = posByName.get(u.playerName)
+        const avg = avgByName.get(u.playerName) ?? {
+          playerName: u.playerName,
+          pts: 0,
+          reb: 0,
+          ast: 0,
+          pra: 0,
+        }
+
+        const def = position ? defByTeamPos.get(`${opponentAbbr}::${position}`) : undefined
+
+        const usageBoost =
+          1 + Math.min(Math.max((u.usagePct - 20) / 200, -0.05), 0.08)
+
+        const defAdj =
+          def == null ? 1 : 1 + Math.min(Math.max((100 - def) / 500, -0.08), 0.08)
+
+        const mult = usageBoost * defAdj
+
+        return {
+          teamAbbr,
+          opponentAbbr,
+          playerName: u.playerName,
+          usagePct: u.usagePct,
+          position,
+          pts: avg.pts,
+          reb: avg.reb,
+          ast: avg.ast,
+          pra: avg.pra,
+          projPts: +(avg.pts * mult).toFixed(1),
+          projReb: +(avg.reb * mult).toFixed(1),
+          projAst: +(avg.ast * mult).toFixed(1),
+          projPra: +(avg.pra * mult).toFixed(1),
+        }
+      })
+
+      const sortDesc = <K extends keyof EnrichedPlayer>(k: K) =>
+        [...enriched].sort((a, b) => (b[k] as number) - (a[k] as number))
+      const sortAsc = <K extends keyof EnrichedPlayer>(k: K) =>
+        [...enriched].sort((a, b) => (a[k] as number) - (b[k] as number))
+
+      this.leaders = enriched.length
+        ? {
+            topPts: sortDesc('projPts')[0],
+            topReb: sortDesc('projReb')[0],
+            topAst: sortDesc('projAst')[0],
+            topPra: sortDesc('projPra')[0],
+            bottomPts: sortAsc('projPts')[0],
+            bottomReb: sortAsc('projReb')[0],
+            bottomAst: sortAsc('projAst')[0],
+            bottomPra: sortAsc('projPra')[0],
+          }
+        : null
+
+      this.matchupPlayers = enriched
+    },
+
+    async selectGame(game: GameDto) {
       try {
-        this.topUsage = await getTopUsagePlayers()
+        this.loading = true
+        this.error = null
+        this.selectedGame = game
+
+        await this.ensureDataLoaded()
+        this.buildProjectionsForGame(game)
       } catch (e: any) {
-        this.topUsageError = e?.message ?? 'Failed to load top usage players'
+        this.error = e?.message ?? 'Failed to build matchup predictions'
+        this.matchupPlayers = []
+        this.leaders = null
       } finally {
-        this.loadingTopUsage = false
+        this.loading = false
       }
     },
   },
