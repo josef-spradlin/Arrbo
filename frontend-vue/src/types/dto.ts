@@ -19,7 +19,13 @@ export type UsageTopRawDto = {
   player1Name: string
   player1Usage: number // 0..1
   player2Name: string
-  player2Usage: number // 0..1
+  player2Usage: number 
+  player3Name: string
+  player3Usage: number
+  player4Name: string
+  player4Usage: number
+  player5Name: string
+  player5Usage: number 
 }
 
 // Normalized: what our app uses

@@ -67,11 +67,30 @@ export async function getTopUsagePlayers() {
         playerName: row.player2Name,
         usagePct: clampUsagePct(row.player2Usage),
       },
-    ]
+      {
+        teamId: row.teamId,
+        teamAbbr,
+        playerName: row.player3Name,
+        usagePct: clampUsagePct(row.player3Usage),
+      },
+      {
+        teamId: row.teamId,
+        teamAbbr,
+        playerName: row.player4Name,
+        usagePct: clampUsagePct(row.player4Usage),
+      },
+      {
+        teamId: row.teamId,
+        teamAbbr,
+        playerName: row.player5Name,
+        usagePct: clampUsagePct(row.player5Usage),
+      },
+    ].filter((p) => !!p.playerName)
   })
 
   return flat
 }
+
 
 export async function getAverages() {
   const { data } = await http.get<PlayerAverageRawDto[]>('/api/averages')

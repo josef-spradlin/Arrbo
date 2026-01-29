@@ -89,23 +89,50 @@ export const usePlayersStore = defineStore('players', {
       const homeAbbr = normTeam(game.homeTeamAbbr)
       const awayAbbr = normTeam(game.awayTeamAbbr)
 
-      const usageRows = this.usagePlayers.filter((u) => {
-        const t = normTeam(u.teamAbbr)
-        return t === homeAbbr || t === awayAbbr
-      })
+      const flattenTeamTop5 = (teamRow: any) => {
+        const teamAbbr = normTeam(teamRow.teamAbbr)
 
-      console.log('usageRows len', usageRows.length, 'home/away', homeAbbr, awayAbbr)
+        const pairs = [
+          [teamRow.player1Name, teamRow.player1Usage],
+          [teamRow.player2Name, teamRow.player2Usage],
+          [teamRow.player3Name, teamRow.player3Usage],
+          [teamRow.player4Name, teamRow.player4Usage],
+          [teamRow.player5Name, teamRow.player5Usage],
+        ] as const
 
+        return pairs
+          .filter(([name, usage]) => !!name && usage != null)
+          .map(([name, usage]) => ({
+            teamAbbr,
+            playerName: String(name),
+            usagePct: Number(usage),
+          }))
+      }
+      const isTeamRowShape =
+        this.usagePlayers.length > 0 &&
+        (this.usagePlayers[0] as any).player1Name != null
+
+      const usageFlat = isTeamRowShape
+        ? (this.usagePlayers as any[])
+            .filter((u) => {
+              const t = normTeam(u.teamAbbr)
+              return t === homeAbbr || t === awayAbbr
+            })
+            .flatMap(flattenTeamTop5)
+        : (this.usagePlayers as any[]).filter((u) => {
+            const t = normTeam(u.teamAbbr)
+            return t === homeAbbr || t === awayAbbr
+          })
+
+      console.log('usageFlat len', usageFlat.length, 'home/away', homeAbbr, awayAbbr)
 
       const avgByName = new Map(this.averages.map((a) => [a.playerName, a]))
-
       const posByName = new Map(this.positions.map((p) => [p.playerName, p.position]))
-
       const defByTeamPos = new Map(
         this.defense.map((d) => [`${normTeam(d.teamAbbr)}::${d.position}`, d.defEff])
       )
 
-      const enriched: EnrichedPlayer[] = usageRows.map((u) => {
+      const enriched: EnrichedPlayer[] = usageFlat.map((u) => {
         const teamAbbr = normTeam(u.teamAbbr)
         const opponentAbbr = teamAbbr === homeAbbr ? awayAbbr : homeAbbr
 
@@ -120,12 +147,8 @@ export const usePlayersStore = defineStore('players', {
 
         const def = position ? defByTeamPos.get(`${opponentAbbr}::${position}`) : undefined
 
-        const usageBoost =
-          1 + Math.min(Math.max((u.usagePct - 20) / 200, -0.05), 0.08)
-
-        const defAdj =
-          def == null ? 1 : 1 + Math.min(Math.max((100 - def) / 500, -0.08), 0.08)
-
+        const usageBoost = 1 + Math.min(Math.max((u.usagePct - 20) / 200, -0.05), 0.08)
+        const defAdj = def == null ? 1 : 1 + Math.min(Math.max((100 - def) / 500, -0.08), 0.08)
         const mult = usageBoost * defAdj
 
         return {

@@ -3,7 +3,13 @@ CREATE TABLE IF NOT EXISTS top_usage_players (
   player1_name TEXT,
   player1_usage DOUBLE PRECISION,
   player2_name TEXT,
-  player2_usage DOUBLE PRECISION
+  player2_usage DOUBLE PRECISION,
+  player3_name TEXT,
+  player3_usage DOUBLE PRECISION,
+  player4_name TEXT,
+  player4_usage DOUBLE PRECISION,
+  player5_name TEXT,
+  player5_usage DOUBLE PRECISION
 );
 
 CREATE TABLE IF NOT EXISTS positions (

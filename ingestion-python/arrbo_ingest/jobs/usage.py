@@ -69,7 +69,7 @@ def run(db_path: str, season: str) -> None:
         log.error("Failed to fetch league usage stats after retries: %s", e)
         raise
 
-    inserts: list[tuple[int, str, float, str, float]] = []
+    inserts: list[tuple[int, str, float, str, float, str, float, str, float, str, float]] = []
     failed_teams: list[str] = []
 
     for nba_team_id_str, db_team_id in TEAM_ID_MAPPING.items():
@@ -96,17 +96,23 @@ def run(db_path: str, season: str) -> None:
 
         # Sort by usage %
         team_players = team_players.sort_values("USG_PCT", ascending=False)
-        top2 = team_players.head(2)
-        if len(top2) < 2:
+        top5 = team_players.head(5)
+        if len(top5) < 5:
             log.warning("Not enough usage rows for team %s", nba_team_id)
             continue
 
-        p1 = top2.iloc[0]
-        p2 = top2.iloc[1]
+        p1 = top5.iloc[0]
+        p2 = top5.iloc[1]
+        p3 = top5.iloc[2]
+        p4 = top5.iloc[3]
+        p5 = top5.iloc[4]
         inserts.append(
             (db_team_id,
              str(p1["PLAYER_NAME"]), float(p1["USG_PCT"]),
-             str(p2["PLAYER_NAME"]), float(p2["USG_PCT"]))
+             str(p2["PLAYER_NAME"]), float(p2["USG_PCT"]),
+             str(p3["PLAYER_NAME"]), float(p3["USG_PCT"]),
+             str(p4["PLAYER_NAME"]), float(p4["USG_PCT"]),
+             str(p5["PLAYER_NAME"]), float(p5["USG_PCT"]))
         )
 
         _sleep_polite(0.20, 0.25)
@@ -120,8 +126,8 @@ def run(db_path: str, season: str) -> None:
             cur.executemany(
                 """
                 INSERT INTO top_usage_players
-                (team_id, player1_name, player1_usage, player2_name, player2_usage)
-                VALUES (%s, %s, %s, %s, %s)
+                (team_id, player1_name, player1_usage, player2_name, player2_usage, player3_name, player3_usage, player4_name, player4_usage, player5_name, player5_usage)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                 """,
                 inserts,
             )

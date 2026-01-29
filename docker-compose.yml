@@ -43,10 +43,9 @@ services:
       db:
         condition: service_healthy
     environment:
-      # IMPORTANT: inside compose, the postgres host is the service name "db"
       PGHOST: db
       POSTGRES_PORT: 5432
-    command: ["python", "-m", "arrbo_ingest", "all", "--season", "2024-25"]
+    command: ["all", "--season", "2024-25"]
     restart: "no"
 
 volumes:
