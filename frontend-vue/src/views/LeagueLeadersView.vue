@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import { usePlayersStore } from '@/stores/players'
 import type { EnrichedPlayer } from '@/types/dto'
 import { getGames } from '@/api/arrbo'
 import LeadersTable from '@/components/LeadersTable.vue'
 
-type DayKey = 'today' | 'tomorrow'
 type StatKey = 'projPts' | 'projReb' | 'projAst' | 'projPra'
 
 const players = usePlayersStore()
@@ -13,13 +12,15 @@ const players = usePlayersStore()
 const loading = ref(false)
 const error = ref<string | null>(null)
 
-const selectedDay = ref<DayKey>('today')
+// Toggle: false=today, true=tomorrow
+const isTomorrow = ref(false)
 const selectedStat = ref<StatKey>('projPts')
 
 const todayStr = new Date().toISOString().slice(0, 10)
 const tomorrowStr = new Date(Date.now() + 86400000).toISOString().slice(0, 10)
 
-const dayToDate = computed(() => (selectedDay.value === 'today' ? todayStr : tomorrowStr))
+const dayToDate = computed(() => (isTomorrow.value ? tomorrowStr : todayStr))
+const dayLabel = computed(() => (isTomorrow.value ? 'Tomorrow' : 'Today'))
 
 const cache = ref<Record<string, EnrichedPlayer[]>>({})
 
@@ -32,10 +33,8 @@ const statLabel: Record<StatKey, string> = {
 
 async function ensureProjectedPlayersForDate(date: string) {
   if (cache.value[date]) return
-
   await players.ensureDataLoaded()
   const games = await getGames(date)
-
   const allProjected = games.flatMap((g) => players.projectPlayersForGame(g))
   cache.value = { ...cache.value, [date]: allProjected }
 }
@@ -47,13 +46,11 @@ const top10 = computed(() => {
   return [...rows].sort((a, b) => (b[k] as number) - (a[k] as number)).slice(0, 10)
 })
 
-async function loadDay(day: DayKey) {
+async function loadCurrentDay() {
   try {
     loading.value = true
     error.value = null
-    selectedDay.value = day
-
-    await ensureProjectedPlayersForDate(day === 'today' ? todayStr : tomorrowStr)
+    await ensureProjectedPlayersForDate(dayToDate.value)
   } catch (e: any) {
     error.value = e?.message ?? 'Failed to load league leaders'
   } finally {
@@ -61,90 +58,114 @@ async function loadDay(day: DayKey) {
   }
 }
 
+watch(isTomorrow, async () => {
+  await loadCurrentDay()
+})
+
 onMounted(async () => {
-  await loadDay('today')
+  await loadCurrentDay()
 })
 </script>
 
 <template>
-  <div class="p-4">
-    <div class="flex items-center justify-between mb-4">
-      <h1 class="text-xl font-semibold">League Leaders</h1>
-    </div>
+  <div class="space-y-4">
+    <!-- Header -->
+    <div class="card bg-base-100 shadow">
+      <div class="card-body p-4">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+          <div>
+            <h1 class="text-xl font-bold">Projected League Leaders</h1>
+            <div class="text-sm opacity-70 mt-1">Top 10 projected performers across games.</div>
+          </div>
 
-    <div v-if="error" class="p-3 mb-4 border rounded">
-      {{ error }}
-    </div>
+          <div class="flex items-center gap-3">
+            <span class="badge badge-ghost">Date: {{ dayToDate }}</span>
 
-    <!-- Day toggle -->
-    <div class="flex flex-wrap gap-2 mb-3">
-      <button
-        class="px-3 py-1 rounded border"
-        :class="selectedDay === 'today' ? 'font-semibold' : ''"
-        @click="loadDay('today')"
-        :disabled="loading"
-      >
-        Today
-      </button>
+            <!-- Day toggle -->
+            <div class="flex items-center gap-2">
+              <span class="text-sm font-semibold" :class="!isTomorrow ? '' : 'opacity-60'">Today</span>
 
-      <button
-        class="px-3 py-1 rounded border"
-        :class="selectedDay === 'tomorrow' ? 'font-semibold' : ''"
-        @click="loadDay('tomorrow')"
-        :disabled="loading"
-      >
-        Tomorrow
-      </button>
+              <input
+                type="checkbox"
+                class="toggle toggle-primary"
+                v-model="isTomorrow"
+                aria-label="Toggle between today and tomorrow"
+              />
 
-      <div class="ml-auto text-sm opacity-70 self-center">
-        Date: {{ dayToDate }}
+              <span class="text-sm font-semibold" :class="isTomorrow ? '' : 'opacity-60'">Tomorrow</span>
+            </div>
+            <span v-if="loading" class="loading loading-spinner loading-sm"></span>
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- Stat toggle -->
-    <div class="flex flex-wrap gap-2 mb-4">
-      <button
-        class="px-3 py-1 rounded border"
-        :class="selectedStat === 'projPts' ? 'font-semibold' : ''"
-        @click="selectedStat = 'projPts'"
-      >
-        PTS
-      </button>
-
-      <button
-        class="px-3 py-1 rounded border"
-        :class="selectedStat === 'projReb' ? 'font-semibold' : ''"
-        @click="selectedStat = 'projReb'"
-      >
-        REB
-      </button>
-
-      <button
-        class="px-3 py-1 rounded border"
-        :class="selectedStat === 'projAst' ? 'font-semibold' : ''"
-        @click="selectedStat = 'projAst'"
-      >
-        AST
-      </button>
-
-      <button
-        class="px-3 py-1 rounded border"
-        :class="selectedStat === 'projPra' ? 'font-semibold' : ''"
-        @click="selectedStat = 'projPra'"
-      >
-        PRA
-      </button>
+    <!-- Error -->
+    <div v-if="error" class="alert alert-error">
+      <span>{{ error }}</span>
     </div>
 
-    <!-- Table -->
-    <div v-if="loading" class="p-3 border rounded">Loading...</div>
+    <!-- Controls + Table -->
+    <div class="card bg-base-100 shadow">
+      <div class="card-body p-4 space-y-4">
+        <!-- Stat selector as full-width segmented boxes -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
+          <button
+            type="button"
+            class="btn"
+            :class="selectedStat === 'projPts' ? 'btn-primary' : 'btn-ghost border border-base-300'"
+            @click="selectedStat = 'projPts'"
+          >
+            PTS
+          </button>
 
-    <div v-else class="border rounded p-3">
-      <div class="font-semibold mb-3">
-        Top 10 Projected {{ statLabel[selectedStat] }} — {{ selectedDay === 'today' ? 'Today' : 'Tomorrow' }}
+          <button
+            type="button"
+            class="btn"
+            :class="selectedStat === 'projReb' ? 'btn-primary' : 'btn-ghost border border-base-300'"
+            @click="selectedStat = 'projReb'"
+          >
+            REB
+          </button>
+
+          <button
+            type="button"
+            class="btn"
+            :class="selectedStat === 'projAst' ? 'btn-primary' : 'btn-ghost border border-base-300'"
+            @click="selectedStat = 'projAst'"
+          >
+            AST
+          </button>
+
+          <button
+            type="button"
+            class="btn"
+            :class="selectedStat === 'projPra' ? 'btn-primary' : 'btn-ghost border border-base-300'"
+            @click="selectedStat = 'projPra'"
+          >
+            PRA
+          </button>
+        </div>
+
+        <!-- Loading -->
+        <div v-if="loading" class="alert">
+          <span>Building projections…</span>
+        </div>
+
+        <!-- Table -->
+        <div v-else class="space-y-2">
+          <div class="flex items-center justify-between">
+            <div class="font-semibold">
+              Top 10 Projected {{ statLabel[selectedStat] }}
+              <span class="opacity-70">— {{ dayLabel }}</span>
+            </div>
+          </div>
+
+          <div class="border border-base-300 rounded-xl overflow-hidden">
+            <LeadersTable :rows="top10" :stat="selectedStat" />
+          </div>
+        </div>
       </div>
-
-      <LeadersTable :rows="top10" :stat="selectedStat" />
     </div>
   </div>
 </template>
