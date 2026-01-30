@@ -4,6 +4,7 @@
       <strong>Arrbo</strong>
       <nav style="display:flex; gap:10px;">
         <RouterLink to="/">Dashboard</RouterLink>
+        <RouterLink to="/league-leaders">League Leaders</RouterLink>
       </nav>
     </header>
 

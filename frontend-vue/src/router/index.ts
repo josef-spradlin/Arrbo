@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import DashboardView from '@/views/DashboardView.vue'
 import GameCompareView from '@/views/GameCompareView.vue'
+import LeagueLeadersView from '@/views/LeagueLeadersView.vue'
 
 export default createRouter({
   history: createWebHistory(),
@@ -17,5 +18,6 @@ export default createRouter({
         date: route.query.date,
       }),
     },
+    { path: '/league-leaders', name: 'leagueLeaders', component: LeagueLeadersView },
   ],
 })

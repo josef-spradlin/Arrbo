@@ -85,13 +85,12 @@ export const usePlayersStore = defineStore('players', {
       await this.selectGame(game)
     },
 
-    buildProjectionsForGame(game: GameDto) {
+    projectPlayersForGame(game: GameDto): EnrichedPlayer[] {
       const homeAbbr = normTeam(game.homeTeamAbbr)
       const awayAbbr = normTeam(game.awayTeamAbbr)
 
       const flattenTeamTop5 = (teamRow: any) => {
         const teamAbbr = normTeam(teamRow.teamAbbr)
-
         const pairs = [
           [teamRow.player1Name, teamRow.player1Usage],
           [teamRow.player2Name, teamRow.player2Usage],
@@ -108,9 +107,9 @@ export const usePlayersStore = defineStore('players', {
             usagePct: Number(usage),
           }))
       }
+
       const isTeamRowShape =
-        this.usagePlayers.length > 0 &&
-        (this.usagePlayers[0] as any).player1Name != null
+        this.usagePlayers.length > 0 && (this.usagePlayers[0] as any).player1Name != null
 
       const usageFlat = isTeamRowShape
         ? (this.usagePlayers as any[])
@@ -123,8 +122,6 @@ export const usePlayersStore = defineStore('players', {
             const t = normTeam(u.teamAbbr)
             return t === homeAbbr || t === awayAbbr
           })
-
-      console.log('usageFlat len', usageFlat.length, 'home/away', homeAbbr, awayAbbr)
 
       const avgByName = new Map(this.averages.map((a) => [a.playerName, a]))
       const posByName = new Map(this.positions.map((p) => [p.playerName, p.position]))
@@ -167,6 +164,13 @@ export const usePlayersStore = defineStore('players', {
           projPra: +(avg.pra * mult).toFixed(1),
         }
       })
+
+      return enriched
+    },
+
+
+    buildProjectionsForGame(game: GameDto) {
+      const enriched = this.projectPlayersForGame(game)
 
       const sortDesc = <K extends keyof EnrichedPlayer>(k: K) =>
         [...enriched].sort((a, b) => (b[k] as number) - (a[k] as number))
