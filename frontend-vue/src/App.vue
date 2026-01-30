@@ -5,6 +5,7 @@
       <nav style="display:flex; gap:10px;">
         <RouterLink to="/">Dashboard</RouterLink>
         <RouterLink to="/league-leaders">League Leaders</RouterLink>
+        <RouterLink to="/team-comparison">Team Comparison</RouterLink>
       </nav>
     </header>
 
