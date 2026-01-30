@@ -45,7 +45,7 @@ services:
     environment:
       PGHOST: db
       POSTGRES_PORT: 5432
-    command: ["all", "--season", "2024-25"]
+    command: ["all"]
     restart: "no"
 
 volumes:
