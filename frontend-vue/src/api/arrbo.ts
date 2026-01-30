@@ -129,7 +129,7 @@ export async function getDefensiveEfficiency() {
       { teamAbbr, position: 'SG', defEff: r.sgEfficiency },
       { teamAbbr, position: 'SF', defEff: r.sfEfficiency },
       { teamAbbr, position: 'PF', defEff: r.pfEfficiency },
-      { teamAbbr, position: 'C', defEff: r.cefficiency },
+      { teamAbbr, position: 'C', defEff: r.cEfficiency },
     ]
   })
 

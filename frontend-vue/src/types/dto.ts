@@ -76,7 +76,7 @@ export type DefensiveEfficiencyRawDto = {
   sgEfficiency: number
   sfEfficiency: number
   pfEfficiency: number
-  cefficiency: number
+  cEfficiency: number
 }
 
 // Normalized (one row per team+position)
