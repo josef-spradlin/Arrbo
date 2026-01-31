@@ -1,0 +1,7 @@
+pytest
+pytest-html
+pytest-xdist
+requests
+psycopg[binary]
+selenium
+python-dotenv
