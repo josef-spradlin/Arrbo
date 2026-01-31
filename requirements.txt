@@ -1,5 +1,1 @@
-nba_api
-pandas
-requests
-beautifulsoup4
-selenium
+-r ingestion-python/requirements.txt

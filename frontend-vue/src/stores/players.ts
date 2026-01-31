@@ -1,3 +1,14 @@
+/**
+ * Players store
+ *
+ * Responsible for:
+ * - Loading player usage, averages, positions, and defensive efficiency
+ * - Building matchup-specific player projections
+ * - Applying usage, defensive efficiency, and home/away adjustments
+ *
+ * This is where the core projection logic for the model lives.
+ */
+
 import { defineStore } from 'pinia'
 import type {
   DefensiveEfficiencyDto,
@@ -145,8 +156,30 @@ export const usePlayersStore = defineStore('players', {
         const def = position ? defByTeamPos.get(`${opponentAbbr}::${position}`) : undefined
 
         const usageBoost = 1 + Math.min(Math.max((u.usagePct - 20) / 200, -0.05), 0.08)
-        const defAdj = def == null ? 1 : 1 + Math.min(Math.max((100 - def) / 500, -0.08), 0.08)
-        const mult = usageBoost * defAdj
+      const defAdj = def == null ? 1 : 1 + Math.min(Math.max((100 - def) / 500, -0.08), 0.08)
+
+      // Home/away adjustment (modest and stat-specific)
+      const isHome = teamAbbr === homeAbbr
+
+      const HOME_EDGE_PTS = 0.03   // +/- 3.0%
+      const HOME_EDGE_REB = 0.015  // +/- 1.5%
+      const HOME_EDGE_AST = 0.02   // +/- 2.0%
+
+      const haPts = isHome ? (1 + HOME_EDGE_PTS) : (1 - HOME_EDGE_PTS)
+      const haReb = isHome ? (1 + HOME_EDGE_REB) : (1 - HOME_EDGE_REB)
+      const haAst = isHome ? (1 + HOME_EDGE_AST) : (1 - HOME_EDGE_AST)
+
+      // Base matchup multiplier (usage + defense) then apply stat-specific home/away factor
+      const baseMult = usageBoost * defAdj
+      const multPts = baseMult * haPts
+      const multReb = baseMult * haReb
+      const multAst = baseMult * haAst
+
+      const projPts = +(avg.pts * multPts).toFixed(1)
+      const projReb = +(avg.reb * multReb).toFixed(1)
+      const projAst = +(avg.ast * multAst).toFixed(1)
+      const projPra = +(projPts + projReb + projAst).toFixed(1)
+
 
         return {
           teamAbbr,
@@ -158,10 +191,10 @@ export const usePlayersStore = defineStore('players', {
           reb: avg.reb,
           ast: avg.ast,
           pra: avg.pra,
-          projPts: +(avg.pts * mult).toFixed(1),
-          projReb: +(avg.reb * mult).toFixed(1),
-          projAst: +(avg.ast * mult).toFixed(1),
-          projPra: +(avg.pra * mult).toFixed(1),
+            projPts,
+            projReb,
+            projAst,
+            projPra,
         }
       })
 
