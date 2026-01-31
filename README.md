@@ -60,7 +60,7 @@ Clone the repository and navigate into the project directory:
 
 git clone <repo>
 
-cd Arrbo
+In Root
 
 Copy-Item .env.example .env
 (For Mac/Linux: cp .env.example .env)
@@ -83,7 +83,7 @@ npm ci
 
 cd ..
 
-## Run the application from the Arrbo root directory by using the run.py script:
+## Run the application from the root directory by using the run.py script:
 
 Normal start without data ingestion: py run.py up
 
