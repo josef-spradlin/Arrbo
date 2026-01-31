@@ -4,6 +4,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 @Table(name = "defensive_efficiency")
@@ -25,6 +26,7 @@ public class DefensiveEfficiency {
   @Column(name = "pf_efficiency")
   private Double pfEfficiency;
 
+  @JsonProperty("cEfficiency") //Stabalize the name for this property
   @Column(name = "c_efficiency")
   private Double cEfficiency;
 
