@@ -18,6 +18,9 @@ backend-springboot/target/
 # Local DB artifacts
 ingestion-python/*.db
 
+# Testing artifacts
+test-artifacts/
+
 # Environment files (ignore real, keep examples)
 .env
 .env.*
