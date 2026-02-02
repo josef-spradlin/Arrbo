@@ -1,6 +1,7 @@
 import json
 import os
 import time
+import datetime as dt
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from typing import Any
 
@@ -122,9 +123,29 @@ def test_perf_smoke_simple_endpoints(path, p95_limit_ms):
     assert_perf(report, p95_limit_ms)
 
 
+def _pick_games_date(base_url: str, timeout_s: float) -> str | None:
+    today = dt.date.today().isoformat()
+    tomorrow = (dt.date.today() + dt.timedelta(days=1)).isoformat()
+
+    for d in (today, tomorrow):
+        r = requests.get(f"{base_url}/api/games?date={d}", timeout=timeout_s)
+        if r.status_code != 200:
+            continue
+        if r.json():  
+            return d
+
+    return None
+
+
 def test_perf_smoke_games_by_date():
     cfg = perf_config()
-    url = f"{cfg['base_url']}/api/games?date={cfg['date']}"
+    base = cfg["base_url"]
+
+    picked = _pick_games_date(base, cfg["timeout_s"])
+    if not picked:
+        pytest.skip("No games found for today or tomorrow; skipping /api/games perf test.")
+
+    url = f"{base}/api/games?date={picked}"
 
     report = run_load(
         url=url,
@@ -133,6 +154,5 @@ def test_perf_smoke_games_by_date():
         warmup=cfg["warmup"],
         timeout_s=cfg["timeout_s"],
     )
-    write_artifact("api_games_by_date", {"url": url, **report})
+    write_artifact("api_games_by_date", {"url": url, "date": picked, **report})
     assert_perf(report, 500)
-

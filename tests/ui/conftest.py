@@ -5,8 +5,7 @@ from dotenv import load_dotenv
 
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options as ChromeOptions
-from selenium.webdriver.chrome.service import Service as ChromeService
-from webdriver_manager.chrome import ChromeDriverManager
+
 
 # Separate env file from other tests
 load_dotenv(".env.ui")
@@ -37,12 +36,9 @@ def driver(headless: bool):
     opts.add_argument("--no-sandbox")
     opts.add_argument("--disable-dev-shm-usage")
 
-    service = ChromeService(ChromeDriverManager().install())
-    d = webdriver.Chrome(service=service, options=opts)
+    d = webdriver.Chrome(options=opts)
 
-    # Prefer explicit waits in page objects
     d.implicitly_wait(0)
-
     yield d
     d.quit()
 

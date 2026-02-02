@@ -4,5 +4,4 @@ pytest-xdist
 requests
 psycopg[binary]
 selenium
-webdriver-manager
 python-dotenv
