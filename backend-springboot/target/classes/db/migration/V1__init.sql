@@ -36,7 +36,3 @@ CREATE TABLE IF NOT EXISTS averages (
   player_pra DOUBLE PRECISION
 );
 
-CREATE TABLE IF NOT EXISTS nba_teams (
-  team_id INTEGER PRIMARY KEY,
-  team_name TEXT
-);
