@@ -68,24 +68,25 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="space-y-4">
+  <div class="space-y-4" data-testid="league-leaders-view">
     <!-- Header -->
     <div class="card bg-base-100 shadow">
       <div class="card-body p-4">
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
           <div>
-            <h1 class="text-xl font-bold">Projected League Leaders</h1>
+            <h1 class="text-xl font-bold" data-testid="league-leaders-title">Projected League Leaders</h1>
             <div class="text-sm opacity-70 mt-1">Top 10 projected performers across games.</div>
           </div>
 
           <div class="flex items-center gap-3">
-            <span class="badge badge-ghost">Date: {{ dayToDate }}</span>
+            <span class="badge badge-ghost" data-testid="league-leaders-date-badge">Date: {{ dayToDate }}</span>
 
             <!-- Day toggle -->
             <div class="flex items-center gap-2">
               <span class="text-sm font-semibold" :class="!isTomorrow ? '' : 'opacity-60'">Today</span>
 
               <input
+                data-testid="league-leaders-day-toggle"  
                 type="checkbox"
                 class="toggle toggle-primary"
                 v-model="isTomorrow"
@@ -94,14 +95,14 @@ onMounted(async () => {
 
               <span class="text-sm font-semibold" :class="isTomorrow ? '' : 'opacity-60'">Tomorrow</span>
             </div>
-            <span v-if="loading" class="loading loading-spinner loading-sm"></span>
+            <span v-if="loading" class="loading loading-spinner loading-sm" data-testid="league-leaders-loading-spinner"></span>
           </div>
         </div>
       </div>
     </div>
 
     <!-- Error -->
-    <div v-if="error" class="alert alert-error">
+    <div v-if="error" class="alert alert-error" data-testid="league-leaders-error">
       <span>{{ error }}</span>
     </div>
 
@@ -111,7 +112,8 @@ onMounted(async () => {
         <!-- Stat selector as full-width segmented boxes -->
         <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
           <button
-            type="button"
+              data-testid="league-leaders-stat-pts"
+              type="button"
             class="btn"
             :class="selectedStat === 'projPts' ? 'btn-primary' : 'btn-ghost border border-base-300'"
             @click="selectedStat = 'projPts'"
@@ -120,7 +122,7 @@ onMounted(async () => {
           </button>
 
           <button
-            type="button"
+            data-testid="league-leaders-stat-reb"
             class="btn"
             :class="selectedStat === 'projReb' ? 'btn-primary' : 'btn-ghost border border-base-300'"
             @click="selectedStat = 'projReb'"
@@ -129,7 +131,7 @@ onMounted(async () => {
           </button>
 
           <button
-            type="button"
+            data-testid="league-leaders-stat-ast"
             class="btn"
             :class="selectedStat === 'projAst' ? 'btn-primary' : 'btn-ghost border border-base-300'"
             @click="selectedStat = 'projAst'"
@@ -138,7 +140,7 @@ onMounted(async () => {
           </button>
 
           <button
-            type="button"
+            data-testid="league-leaders-stat-pra"
             class="btn"
             :class="selectedStat === 'projPra' ? 'btn-primary' : 'btn-ghost border border-base-300'"
             @click="selectedStat = 'projPra'"
@@ -148,12 +150,12 @@ onMounted(async () => {
         </div>
 
         <!-- Loading -->
-        <div v-if="loading" class="alert">
+        <div v-if="loading" class="alert" data-testid="league-leaders-loading">
           <span>Building projections…</span>
         </div>
 
         <!-- Table -->
-        <div v-else class="space-y-2">
+        <div v-else class="space-y-2" data-testid="league-leaders-content">
           <div class="flex items-center justify-between">
             <div class="font-semibold">
               Top 10 Projected {{ statLabel[selectedStat] }}
@@ -161,7 +163,7 @@ onMounted(async () => {
             </div>
           </div>
 
-          <div class="border border-base-300 rounded-xl overflow-hidden">
+          <div class="border border-base-300 rounded-xl overflow-hidden" data-testid="league-leaders-table">
             <LeadersTable :rows="top10" :stat="selectedStat" />
           </div>
         </div>

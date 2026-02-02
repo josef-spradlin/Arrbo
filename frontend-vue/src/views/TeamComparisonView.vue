@@ -40,21 +40,21 @@ async function run() {
 </script>
 
 <template>
-  <div class="space-y-4">
+  <div class="space-y-4" data-testid="team-comparison-view">
     <!-- Header -->
     <div class="card bg-base-100 shadow">
       <div class="card-body p-4">
         <div class="flex items-start justify-between gap-3">
           <div>
-            <h1 class="text-xl font-bold">Team Comparison</h1>
+            <h1 class="text-xl font-bold" data-testid="team-comparison-title">Team Comparison</h1>
             <div class="text-sm opacity-70 mt-1">
               Generate a hypothetical matchup using current averages, usage, positions, and defensive efficiency.
             </div>
           </div>
 
           <div class="flex items-center gap-2">
-            <span class="badge badge-outline">{{ matchupLabel }}</span>
-            <span v-if="players.loading" class="loading loading-spinner loading-sm"></span>
+            <span class="badge badge-outline" data-testid="team-comparison-matchup-label">{{ matchupLabel }}</span>
+            <span v-if="players.loading" class="loading loading-spinner loading-sm" data-testid="team-comparison-spinner"></span>
           </div>
         </div>
       </div>
@@ -66,14 +66,14 @@ async function run() {
         <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
           <div>
             <div class="text-sm font-semibold mb-1">Team A</div>
-            <select v-model="teamA" class="select select-bordered w-full">
+            <select v-model="teamA" class="select select-bordered w-full" data-testid="team-comparison-team-a">
               <option v-for="t in TEAMS" :key="t" :value="t">{{ t }}</option>
             </select>
           </div>
 
           <div>
             <div class="text-sm font-semibold mb-1">Team B</div>
-            <select v-model="teamB" class="select select-bordered w-full">
+            <select v-model="teamB" class="select select-bordered w-full" data-testid="team-comparison-team-b">
               <option v-for="t in TEAMS" :key="t" :value="t">{{ t }}</option>
             </select>
           </div>
@@ -82,6 +82,7 @@ async function run() {
             <div class="text-sm font-semibold mb-1">Home / Neutral</div>
             <div class="join w-full">
               <button
+                data-testid="team-comparison-home-neutral"
                 class="btn join-item flex-1"
                 :class="homeMode === 'NEUTRAL' ? 'btn-primary' : 'btn-ghost'"
                 @click="homeMode = 'NEUTRAL'"
@@ -90,6 +91,7 @@ async function run() {
                 Neutral
               </button>
               <button
+                data-testid="team-comparison-home-a"
                 class="btn join-item flex-1"
                 :class="homeMode === 'TEAM_A' ? 'btn-primary' : 'btn-ghost'"
                 @click="homeMode = 'TEAM_A'"
@@ -98,6 +100,7 @@ async function run() {
                 A Home
               </button>
               <button
+                data-testid="team-comparison-home-b"
                 class="btn join-item flex-1"
                 :class="homeMode === 'TEAM_B' ? 'btn-primary' : 'btn-ghost'"
                 @click="homeMode = 'TEAM_B'"
@@ -114,11 +117,11 @@ async function run() {
         </div>
 
         <div class="flex flex-wrap items-center gap-2">
-          <button class="btn btn-primary w-full" @click="run" :disabled="players.loading || !canRun" type="button">
+          <button data-testid="team-comparison-generate" class="btn btn-primary w-full" @click="run" :disabled="players.loading || !canRun" type="button">
             Generate
           </button>
 
-          <div v-if="!canRun" class="text-sm opacity-70">
+          <div v-if="!canRun" class="text-sm opacity-70" data-testid="team-comparison-invalid">
             Pick two different teams.
           </div>
         </div>
@@ -126,23 +129,23 @@ async function run() {
     </div>
 
     <!-- Error -->
-    <div v-if="players.error" class="alert alert-error">
+    <div v-if="players.error" class="alert alert-error" data-testid="team-comparison-error">
       <span>{{ players.error }}</span>
     </div>
 
     <!-- Results -->
-    <div v-if="players.selectedGame && !players.loading" class="grid grid-cols-1 xl:grid-cols-3 gap-4">
+    <div v-if="players.selectedGame && !players.loading" class="grid grid-cols-1 xl:grid-cols-3 gap-4" data-testid="team-comparison-results">
       <!-- Leaders -->
-      <div class="card bg-base-100 shadow xl:col-span-1">
+      <div class="card bg-base-100 shadow xl:col-span-1" data-testid="team-comparison-insights-card">
         <div class="card-body p-4">
           <div class="flex items-center justify-between mb-2">
             <h2 class="card-title text-base">Insights</h2>
-            <span class="badge badge-ghost">
+            <span class="badge badge-ghost" data-testid="team-comparison-results-badge">
               {{ players.selectedGame.awayTeamAbbr }} @ {{ players.selectedGame.homeTeamAbbr }}
             </span>
           </div>
 
-          <div v-if="players.leaders" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-1 gap-3 text-sm">
+          <div v-if="players.leaders" data-testid="team-comparison-leaders-grid" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-1 gap-3 text-sm">
             <div class="border border-base-300 rounded-xl p-3">
               <div class="font-semibold">Top PTS</div>
               <div class="opacity-80">
@@ -184,7 +187,7 @@ async function run() {
             </div>
           </div>
 
-          <div v-else class="opacity-70">
+          <div v-else data-testid="team-comparison-no-leaders" class="opacity-70">
             No leader projections available.
           </div>
         </div>
@@ -195,19 +198,20 @@ async function run() {
         <div class="card-body p-4">
           <div class="flex items-center justify-between mb-2">
             <h2 class="card-title text-base">Projected Players</h2>
-            <span class="badge badge-outline">{{ players.matchupPlayers.length }} players</span>
+            <span class="badge badge-outline" data-testid="team-comparison-player-count">{{ players.matchupPlayers.length }} players</span>
           </div>
-
-          <PlayerTable :rows="players.matchupPlayers" />
+          <div data-testid="team-comparison-player-table">
+            <PlayerTable :rows="players.matchupPlayers" />
+          </div>
         </div>
       </div>
     </div>
 
-    <div v-else-if="players.loading" class="alert">
+    <div v-else-if="players.loading" class="alert" data-testid="team-comparison-loading">
       <span>Building projections…</span>
     </div>
 
-    <div v-else class="opacity-70">
+    <div v-else class="opacity-70" data-testid="team-comparison-empty">
       Pick two teams and click Generate.
     </div>
   </div>

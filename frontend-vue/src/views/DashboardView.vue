@@ -67,7 +67,7 @@ async function onSelectGame(game: any) {
 </script>
 
 <template>
-  <div class="space-y-4">
+  <div class="space-y-4" data-testid="dashboard-view">
     <!-- Header + Toggle -->
     <div class="card bg-base-100 shadow">
       <div class="card-body p-4">
@@ -80,13 +80,14 @@ async function onSelectGame(game: any) {
           </div>
 
           <div class="flex items-center gap-3">
-            <span class="badge badge-ghost">Date: {{ dayDate }}</span>
+            <span class="badge badge-ghost" data-testid="date-badge">Date: {{ dayDate }}</span>
 
             <!-- Toggle switch -->
             <div class="flex items-center gap-2">
               <span class="text-sm font-semibold" :class="!isTomorrow ? '' : 'opacity-60'">Today</span>
 
               <input
+                data-testid="day-toggle"  
                 type="checkbox"
                 class="toggle toggle-primary"
                 v-model="isTomorrow"
@@ -111,7 +112,7 @@ async function onSelectGame(game: any) {
         <div class="card-body p-4">
           <div class="flex items-center justify-between mb-2">
             <h2 class="card-title text-base">{{ dayLabel }} Games</h2>
-            <span class="badge badge-outline">{{ dayGames.length }}</span>
+            <span class="badge badge-outline" data-testid="day-games-count">{{ dayGames.length }}</span>
           </div>
 
           <GameList :games="dayGames" :selectedGameId="playersStore.selectedGame?.gameId" @select="onSelectGame"/>
@@ -126,15 +127,15 @@ async function onSelectGame(game: any) {
             <h2 class="card-title">Matchup Insights</h2>
 
             <div class="flex items-center gap-2">
-              <span v-if="playersStore.loading" class="loading loading-spinner loading-sm"></span>
+              <span v-if="playersStore.loading" data-testid="players-loading" class="loading loading-spinner loading-sm"></span>
 
-              <span v-if="playersStore.selectedGame" class="badge badge-outline">
+              <span v-if="playersStore.selectedGame" class="badge badge-outline" data-testid="selected-matchup-badge">
                 {{ playersStore.selectedGame.awayTeamAbbr }} @ {{ playersStore.selectedGame.homeTeamAbbr }}
               </span>
             </div>
           </div>
 
-          <div v-if="!playersStore.selectedGame" class="opacity-70 mt-2">
+          <div v-if="!playersStore.selectedGame" class="opacity-70 mt-2" data-testid="no-games-message">
             No games loaded for {{ dayLabel.toLowerCase() }}.
           </div>
 
@@ -151,7 +152,7 @@ async function onSelectGame(game: any) {
     </div>
 
     <!-- Bottom table -->
-    <div class="card bg-base-100 shadow">
+    <div class="card bg-base-100 shadow" data-testid="player-table-card">
       <div class="card-body p-4">
         <div class="flex items-center justify-between mb-2">
           <h3 class="card-title text-base">Projected Player Table</h3>
@@ -162,7 +163,7 @@ async function onSelectGame(game: any) {
           No matchup selected.
         </div>
 
-        <div v-else>
+        <div v-else data-testid="player-table">
           <PlayerTable :rows="playersStore.matchupPlayers" />
         </div>
       </div>
