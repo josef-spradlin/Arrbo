@@ -1,11 +1,25 @@
-node_modules/
-dist/
-.vite/
-.env*
-npm-debug.log*
-yarn-debug.log*
-.DS_Store
-Thumbs.db
-.venv/
-.env/test
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+
+# Java / Spring Boot
+backend-springboot/target/
+*.class
+*.jar
+*.war
+*.ear
+
+# Local DB artifacts
+ingestion-python/*.db
+
+# Environment files (ignore real, keep examples)
+.env
+.env.*
+!.env.example
 
