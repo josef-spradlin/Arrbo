@@ -34,8 +34,10 @@ jobs:
 
       # Export .env vars so pytest steps can see them too
       - name: Export env for later steps
+        shell: bash
         run: |
-          cat .env >> "$GITHUB_ENV"
+          grep -v '^\s*#' .env | grep -v '^\s*$' >> "$GITHUB_ENV"
+
 
       - name: Start DB + API
         run: |
