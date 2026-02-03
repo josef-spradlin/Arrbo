@@ -144,6 +144,11 @@ jobs:
       - name: Create .env for docker compose
         run: cp .env.ci .env
 
+      - name: Export env for later steps
+        shell: bash
+        run: |
+          grep -v '^\s*#' .env | grep -v '^\s*$' >> "$GITHUB_ENV"
+
       - name: Start DB
         run: |
           docker compose up -d db
