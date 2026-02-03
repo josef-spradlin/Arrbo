@@ -32,6 +32,17 @@ jobs:
       - name: Create .env for docker compose
         run: cp .env.ci .env
 
+      - name: Run DB integrity tests
+        env:
+          ARRBO_DB_HOST: localhost
+          ARRBO_DB_PORT: "5432"
+          ARRBO_DB_NAME: arrbo
+          ARRBO_DB_USER: arrbo
+          ARRBO_DB_PASSWORD: arrbo
+        run: |
+          pytest -m db -vv
+          
+
       - name: Start DB + API
         run: |
           docker compose up -d db api
