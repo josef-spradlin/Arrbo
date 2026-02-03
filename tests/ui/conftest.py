@@ -8,7 +8,7 @@ from selenium.webdriver.chrome.options import Options as ChromeOptions
 
 
 # Separate env file from other tests
-load_dotenv(".env.ui")
+load_dotenv(".env.test")
 
 ARTIFACTS_DIR = pathlib.Path("test-artifacts/ui")
 ARTIFACTS_DIR.mkdir(parents=True, exist_ok=True)
