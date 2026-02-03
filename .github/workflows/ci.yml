@@ -32,21 +32,29 @@ jobs:
       - name: Create .env for docker compose
         run: cp .env.ci .env
 
-      - name: Run DB integrity tests
-        env:
-          ARRBO_DB_HOST: localhost
-          ARRBO_DB_PORT: "5432"
-          ARRBO_DB_NAME: arrbo
-          ARRBO_DB_USER: arrbo
-          ARRBO_DB_PASSWORD: arrbo
+      # Export .env vars so pytest steps can see them too
+      - name: Export env for later steps
         run: |
-          pytest -m db -vv
-          
+          cat .env >> "$GITHUB_ENV"
 
       - name: Start DB + API
         run: |
           docker compose up -d db api
           docker compose ps
+
+      - name: Wait for DB (Postgres)
+        run: |
+          for i in {1..60}; do
+            if docker compose exec -T db pg_isready -U "$POSTGRES_USER" -d "$POSTGRES_DB" >/dev/null 2>&1; then
+              echo "DB is ready"
+              exit 0
+            fi
+            echo "Waiting for DB..."
+            sleep 2
+          done
+          echo "DB did not become ready"
+          docker compose logs db --no-color --tail=300
+          exit 1
 
       - name: Wait for API
         run: |
@@ -63,16 +71,12 @@ jobs:
           exit 1
 
       - name: Run DB integrity tests
-        env:
-          ARRBO_API_BASE_URL: http://localhost:8080
-        run: |
-          pytest -m db -vv
+        run: pytest -m db -vv
 
       - name: Run API smoke tests
         env:
           ARRBO_API_BASE_URL: http://localhost:8080
-        run: |
-          pytest -m api -vv
+        run: pytest -m api -vv
 
       - name: Run perf smoke tests
         env:
@@ -81,8 +85,7 @@ jobs:
           PERF_CONCURRENCY: "10"
           PERF_WARMUP: "10"
           PERF_TIMEOUT_S: "5"
-        run: |
-          pytest -m perf -vv
+        run: pytest -m perf -vv
 
       - name: Upload perf artifacts
         if: always()
@@ -143,6 +146,20 @@ jobs:
           done
           docker compose logs api --no-color --tail=300
           exit 1
+
+      - name: Wait for DB
+        run: |
+          for i in {1..60}; do
+            if docker compose exec -T db pg_isready -U "$POSTGRES_USER" -d "$POSTGRES_DB" >/dev/null 2>&1; then
+              echo "DB is ready"
+              exit 0
+            fi
+            echo "Waiting for DB..."
+            sleep 2
+          done
+          docker compose logs db --no-color --tail=300
+          exit 1
+
 
       - name: Set up Node
         uses: actions/setup-node@v4
