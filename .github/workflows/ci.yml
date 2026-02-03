@@ -59,9 +59,11 @@ jobs:
           docker compose logs db --no-color --tail=300
           exit 1
 
-      - name: Seed DB (run ingestion)
+      - name: Seed database with CI test data
         run: |
-          docker compose run --rm ingest all
+          docker compose exec -T db \
+            psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" < ci/seed.sql
+
 
       - name: Start API
         run: |
@@ -162,9 +164,11 @@ jobs:
           docker compose logs db --no-color --tail=300
           exit 1
 
-      - name: Seed DB (run ingestion)
+      - name: Seed database with CI test data
         run: |
-          docker compose run --rm ingest all
+          docker compose exec -T db \
+            psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" < ci/seed.sql
+
 
       - name: Start API
         run: |
