@@ -65,8 +65,9 @@ jobs:
       - name: Seed database with CI test data
         shell: bash
         run: |
-          docker compose exec -T db bash -lc \
-            'PGPASSWORD="$POSTGRES_PASSWORD" psql -h localhost -U "$POSTGRES_USER" -d "$POSTGRES_DB" < ci/seed.sql'
+          cat ci/seed.sql | docker compose exec -T db \
+            env PGPASSWORD="$POSTGRES_PASSWORD" \
+            psql -h localhost -U "$POSTGRES_USER" -d "$POSTGRES_DB"
 
 
 
@@ -181,8 +182,9 @@ jobs:
       - name: Seed database with CI test data
         shell: bash
         run: |
-          docker compose exec -T db bash -lc \
-            'PGPASSWORD="$POSTGRES_PASSWORD" psql -h localhost -U "$POSTGRES_USER" -d "$POSTGRES_DB" < ci/seed.sql'
+          cat ci/seed.sql | docker compose exec -T db \
+            env PGPASSWORD="$POSTGRES_PASSWORD" \
+            psql -h localhost -U "$POSTGRES_USER" -d "$POSTGRES_DB"
 
 
 
