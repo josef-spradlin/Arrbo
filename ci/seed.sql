@@ -604,36 +604,40 @@ INSERT INTO public.games (game_id, game_date, start_time_utc, status_text, home_
 -- Data for Name: nba_teams; Type: TABLE DATA; Schema: public; Owner: arrbo
 --
 
-INSERT INTO public.nba_teams (team_id, team_name) VALUES (1, 'Atlanta Hawks');
-INSERT INTO public.nba_teams (team_id, team_name) VALUES (2, 'Boston Celtics');
-INSERT INTO public.nba_teams (team_id, team_name) VALUES (3, 'Brooklyn Nets');
-INSERT INTO public.nba_teams (team_id, team_name) VALUES (4, 'Charlotte Hornets');
-INSERT INTO public.nba_teams (team_id, team_name) VALUES (5, 'Chicago Bulls');
-INSERT INTO public.nba_teams (team_id, team_name) VALUES (6, 'Cleveland Cavaliers');
-INSERT INTO public.nba_teams (team_id, team_name) VALUES (7, 'Dallas Mavericks');
-INSERT INTO public.nba_teams (team_id, team_name) VALUES (8, 'Denver Nuggets');
-INSERT INTO public.nba_teams (team_id, team_name) VALUES (9, 'Detroit Pistons');
-INSERT INTO public.nba_teams (team_id, team_name) VALUES (10, 'Golden State Warriors');
-INSERT INTO public.nba_teams (team_id, team_name) VALUES (11, 'Houston Rockets');
-INSERT INTO public.nba_teams (team_id, team_name) VALUES (12, 'Indiana Pacers');
-INSERT INTO public.nba_teams (team_id, team_name) VALUES (13, 'Los Angeles Clippers');
-INSERT INTO public.nba_teams (team_id, team_name) VALUES (14, 'Los Angeles Lakers');
-INSERT INTO public.nba_teams (team_id, team_name) VALUES (15, 'Memphis Grizzlies');
-INSERT INTO public.nba_teams (team_id, team_name) VALUES (16, 'Miami Heat');
-INSERT INTO public.nba_teams (team_id, team_name) VALUES (17, 'Milwaukee Bucks');
-INSERT INTO public.nba_teams (team_id, team_name) VALUES (18, 'Minnesota Timberwolves');
-INSERT INTO public.nba_teams (team_id, team_name) VALUES (19, 'New Orleans Pelicans');
-INSERT INTO public.nba_teams (team_id, team_name) VALUES (20, 'New York Knicks');
-INSERT INTO public.nba_teams (team_id, team_name) VALUES (21, 'Oklahoma City Thunder');
-INSERT INTO public.nba_teams (team_id, team_name) VALUES (22, 'Orlando Magic');
-INSERT INTO public.nba_teams (team_id, team_name) VALUES (23, 'Philadelphia 76ers');
-INSERT INTO public.nba_teams (team_id, team_name) VALUES (24, 'Phoenix Suns');
-INSERT INTO public.nba_teams (team_id, team_name) VALUES (25, 'Portland Trail Blazers');
-INSERT INTO public.nba_teams (team_id, team_name) VALUES (26, 'Sacramento Kings');
-INSERT INTO public.nba_teams (team_id, team_name) VALUES (27, 'San Antonio Spurs');
-INSERT INTO public.nba_teams (team_id, team_name) VALUES (28, 'Toronto Raptors');
-INSERT INTO public.nba_teams (team_id, team_name) VALUES (29, 'Utah Jazz');
-INSERT INTO public.nba_teams (team_id, team_name) VALUES (30, 'Washington Wizards');
+INSERT INTO public.nba_teams (team_id, team_name)
+VALUES
+  (1,  'Atlanta Hawks'),
+  (2,  'Boston Celtics'),
+  (3,  'Brooklyn Nets'),
+  (4,  'Charlotte Hornets'),
+  (5,  'Chicago Bulls'),
+  (6,  'Cleveland Cavaliers'),
+  (7,  'Dallas Mavericks'),
+  (8,  'Denver Nuggets'),
+  (9,  'Detroit Pistons'),
+  (10, 'Golden State Warriors'),
+  (11, 'Houston Rockets'),
+  (12, 'Indiana Pacers'),
+  (13, 'Los Angeles Clippers'),
+  (14, 'Los Angeles Lakers'),
+  (15, 'Memphis Grizzlies'),
+  (16, 'Miami Heat'),
+  (17, 'Milwaukee Bucks'),
+  (18, 'Minnesota Timberwolves'),
+  (19, 'New Orleans Pelicans'),
+  (20, 'New York Knicks'),
+  (21, 'Oklahoma City Thunder'),
+  (22, 'Orlando Magic'),
+  (23, 'Philadelphia 76ers'),
+  (24, 'Phoenix Suns'),
+  (25, 'Portland Trail Blazers'),
+  (26, 'Sacramento Kings'),
+  (27, 'San Antonio Spurs'),
+  (28, 'Toronto Raptors'),
+  (29, 'Utah Jazz'),
+  (30, 'Washington Wizards')
+ON CONFLICT (team_id) DO NOTHING;
+
 
 
 --
