@@ -8,6 +8,10 @@ __pycache__/
 .coverage.*
 htmlcov/
 
+# Frontend
+frontend-vue/node_modules/
+
+
 # Java / Spring Boot
 backend-springboot/target/
 *.class
