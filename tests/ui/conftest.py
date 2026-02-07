@@ -16,7 +16,7 @@ ARTIFACTS_DIR.mkdir(parents=True, exist_ok=True)
 
 @pytest.fixture(scope="session")
 def base_url() -> str:
-    return os.getenv("UI_BASE_URL", "http://localhost:5173").rstrip("/")
+    return os.getenv("ARRBO_UI_BASE_URL", "http://localhost:5173").rstrip("/")
 
 
 @pytest.fixture(scope="session")
