@@ -62,15 +62,6 @@ jobs:
           docker compose logs db --no-color --tail=300
           exit 1
 
-      - name: Seed database with CI test data
-        shell: bash
-        run: |
-          cat ci/seed.sql | docker compose exec -T db \
-            env PGPASSWORD="$POSTGRES_PASSWORD" \
-            psql -h localhost -U "$POSTGRES_USER" -d "$POSTGRES_DB"
-
-
-
       - name: Start API
         run: |
           docker compose up -d api
@@ -90,6 +81,13 @@ jobs:
           echo "API did not become ready"
           docker compose logs api --no-color --tail=300
           exit 1
+
+      - name: Seed database with CI test data
+        shell: bash
+        run: |
+          cat ci/seed.sql | docker compose exec -T db \
+            env PGPASSWORD="$POSTGRES_PASSWORD" \
+            psql -h localhost -U "$POSTGRES_USER" -d "$POSTGRES_DB"
 
       - name: Run DB integrity tests
         run: pytest -m db -vv
@@ -179,15 +177,6 @@ jobs:
           docker compose logs db --no-color --tail=300
           exit 1
 
-      - name: Seed database with CI test data
-        shell: bash
-        run: |
-          cat ci/seed.sql | docker compose exec -T db \
-            env PGPASSWORD="$POSTGRES_PASSWORD" \
-            psql -h localhost -U "$POSTGRES_USER" -d "$POSTGRES_DB"
-
-
-
       - name: Start API
         run: |
           docker compose up -d api
@@ -208,19 +197,12 @@ jobs:
           docker compose logs api --no-color --tail=300
           exit 1
 
-      - name: Wait for DB
+      - name: Seed database with CI test data
+        shell: bash
         run: |
-          for i in {1..60}; do
-            if docker compose exec -T db pg_isready -U "$POSTGRES_USER" -d "$POSTGRES_DB" >/dev/null 2>&1; then
-              echo "DB is ready"
-              exit 0
-            fi
-            echo "Waiting for DB..."
-            sleep 2
-          done
-          docker compose logs db --no-color --tail=300
-          exit 1
-
+          cat ci/seed.sql | docker compose exec -T db \
+            env PGPASSWORD="$POSTGRES_PASSWORD" \
+            psql -h localhost -U "$POSTGRES_USER" -d "$POSTGRES_DB"
 
       - name: Set up Node
         uses: actions/setup-node@v4
