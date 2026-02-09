@@ -142,7 +142,7 @@ INSERT INTO public.averages (id, player_name, player_pts, player_reb, player_ast
 INSERT INTO public.averages (id, player_name, player_pts, player_reb, player_ast, player_pra) VALUES (118, 'Dean Wade', 5.8, 4.2, 1.5, 11.5);
 INSERT INTO public.averages (id, player_name, player_pts, player_reb, player_ast, player_pra) VALUES (119, 'Deandre Ayton', 13.6, 8.5, 0.9, 23);
 INSERT INTO public.averages (id, player_name, player_pts, player_reb, player_ast, player_pra) VALUES (120, 'Deni Avdija', 25.5, 7.2, 6.7, 39.400000000000006);
-INSERT INTO public.averages (id, player_name, player_pts, player_reb, player_ast, player_pra) VALUES (121, 'Dennis Schr├╢der', 12.8, 3.1, 5.3, 21.2);
+INSERT INTO public.averages (id, player_name, player_pts, player_reb, player_ast, player_pra) VALUES (121, 'Dennis Schröder', 12.8, 3.1, 5.3, 21.2);
 INSERT INTO public.averages (id, player_name, player_pts, player_reb, player_ast, player_pra) VALUES (122, 'Dereck Lively II', 4.3, 5.3, 1.9, 11.5);
 INSERT INTO public.averages (id, player_name, player_pts, player_reb, player_ast, player_pra) VALUES (123, 'Derik Queen', 12.3, 7.4, 4.3, 24.000000000000004);
 INSERT INTO public.averages (id, player_name, player_pts, player_reb, player_ast, player_pra) VALUES (124, 'Derrick Jones Jr.', 10.4, 2.6, 1.2, 14.2);
@@ -173,7 +173,7 @@ INSERT INTO public.averages (id, player_name, player_pts, player_reb, player_ast
 INSERT INTO public.averages (id, player_name, player_pts, player_reb, player_ast, player_pra) VALUES (149, 'Dylan Harper', 10.7, 3.3, 3.5, 17.5);
 INSERT INTO public.averages (id, player_name, player_pts, player_reb, player_ast, player_pra) VALUES (150, 'Dyson Daniels', 11.6, 6.7, 6.3, 24.6);
 INSERT INTO public.averages (id, player_name, player_pts, player_reb, player_ast, player_pra) VALUES (151, 'E.J. Liddell', 2.2, 1.1, 0, 3.3000000000000003);
-INSERT INTO public.averages (id, player_name, player_pts, player_reb, player_ast, player_pra) VALUES (152, 'Egor D├½min', 10.5, 3.1, 3.4, 17);
+INSERT INTO public.averages (id, player_name, player_pts, player_reb, player_ast, player_pra) VALUES (152, 'Egor Dëmin', 10.5, 3.1, 3.4, 17);
 INSERT INTO public.averages (id, player_name, player_pts, player_reb, player_ast, player_pra) VALUES (153, 'Elijah Harkless', 2.4, 0.9, 0.7, 4);
 INSERT INTO public.averages (id, player_name, player_pts, player_reb, player_ast, player_pra) VALUES (154, 'Emanuel Miller', 3, 0.6, 0.8, 4.4);
 INSERT INTO public.averages (id, player_name, player_pts, player_reb, player_ast, player_pra) VALUES (155, 'Eric Gordon', 5.5, 0.3, 0.5, 6.3);
@@ -304,7 +304,7 @@ INSERT INTO public.averages (id, player_name, player_pts, player_reb, player_ast
 INSERT INTO public.averages (id, player_name, player_pts, player_reb, player_ast, player_pra) VALUES (280, 'Julius Randle', 22.3, 6.9, 5.4, 34.6);
 INSERT INTO public.averages (id, player_name, player_pts, player_reb, player_ast, player_pra) VALUES (281, 'Justin Champagnie', 7.3, 5.6, 1.1, 13.999999999999998);
 INSERT INTO public.averages (id, player_name, player_pts, player_reb, player_ast, player_pra) VALUES (282, 'Justin Edwards', 4.8, 1.5, 1.1, 7.4);
-INSERT INTO public.averages (id, player_name, player_pts, player_reb, player_ast, player_pra) VALUES (283, 'Jusuf Nurki─ç', 11.2, 10.2, 4.9, 26.299999999999997);
+INSERT INTO public.averages (id, player_name, player_pts, player_reb, player_ast, player_pra) VALUES (283, 'Jusuf Nurkić', 11.2, 10.2, 4.9, 26.299999999999997);
 INSERT INTO public.averages (id, player_name, player_pts, player_reb, player_ast, player_pra) VALUES (284, 'KJ Simpson', 6, 2.1, 2.5, 10.6);
 INSERT INTO public.averages (id, player_name, player_pts, player_reb, player_ast, player_pra) VALUES (285, 'Kam Jones', 1.6, 0.7, 0.8, 3.0999999999999996);
 INSERT INTO public.averages (id, player_name, player_pts, player_reb, player_ast, player_pra) VALUES (286, 'Karl-Anthony Towns', 19.8, 11.8, 2.9, 34.5);
@@ -338,7 +338,7 @@ INSERT INTO public.averages (id, player_name, player_pts, player_reb, player_ast
 INSERT INTO public.averages (id, player_name, player_pts, player_reb, player_ast, player_pra) VALUES (314, 'Kon Knueppel', 18.8, 5.4, 3.6, 27.800000000000004);
 INSERT INTO public.averages (id, player_name, player_pts, player_reb, player_ast, player_pra) VALUES (315, 'Kris Dunn', 7.9, 2.9, 3.1, 13.9);
 INSERT INTO public.averages (id, player_name, player_pts, player_reb, player_ast, player_pra) VALUES (316, 'Kris Murray', 6.1, 4, 1.2, 11.299999999999999);
-INSERT INTO public.averages (id, player_name, player_pts, player_reb, player_ast, player_pra) VALUES (317, 'Kristaps Porzi┼å─úis', 17.1, 5.1, 2.7, 24.900000000000002);
+INSERT INTO public.averages (id, player_name, player_pts, player_reb, player_ast, player_pra) VALUES (317, 'Kristaps Porziņģis', 17.1, 5.1, 2.7, 24.900000000000002);
 INSERT INTO public.averages (id, player_name, player_pts, player_reb, player_ast, player_pra) VALUES (318, 'Kyle Anderson', 7.1, 3.3, 3.1, 13.499999999999998);
 INSERT INTO public.averages (id, player_name, player_pts, player_reb, player_ast, player_pra) VALUES (319, 'Kyle Filipowski', 9.4, 6.2, 2, 17.6);
 INSERT INTO public.averages (id, player_name, player_pts, player_reb, player_ast, player_pra) VALUES (320, 'Kyle Kuzma', 12.8, 4.8, 2.4, 20);
@@ -356,7 +356,7 @@ INSERT INTO public.averages (id, player_name, player_pts, player_reb, player_ast
 INSERT INTO public.averages (id, player_name, player_pts, player_reb, player_ast, player_pra) VALUES (332, 'Lindy Waters III', 1.9, 0.8, 0.4, 3.1);
 INSERT INTO public.averages (id, player_name, player_pts, player_reb, player_ast, player_pra) VALUES (333, 'Lonzo Ball', 4.6, 4, 3.9, 12.5);
 INSERT INTO public.averages (id, player_name, player_pts, player_reb, player_ast, player_pra) VALUES (334, 'Luguentz Dort', 8.6, 3.9, 1.2, 13.7);
-INSERT INTO public.averages (id, player_name, player_pts, player_reb, player_ast, player_pra) VALUES (335, 'Luka Don─ìi─ç', 33.6, 8, 8.8, 50.400000000000006);
+INSERT INTO public.averages (id, player_name, player_pts, player_reb, player_ast, player_pra) VALUES (335, 'Luka Dončić', 33.6, 8, 8.8, 50.400000000000006);
 INSERT INTO public.averages (id, player_name, player_pts, player_reb, player_ast, player_pra) VALUES (336, 'Luka Garza', 7.7, 4.3, 1.1, 13.1);
 INSERT INTO public.averages (id, player_name, player_pts, player_reb, player_ast, player_pra) VALUES (337, 'Luke Kennard', 7.8, 2.1, 2.1, 12);
 INSERT INTO public.averages (id, player_name, player_pts, player_reb, player_ast, player_pra) VALUES (338, 'Luke Kornet', 7.6, 6.7, 2, 16.3);
@@ -406,9 +406,9 @@ INSERT INTO public.averages (id, player_name, player_pts, player_reb, player_ast
 INSERT INTO public.averages (id, player_name, player_pts, player_reb, player_ast, player_pra) VALUES (382, 'Nickeil Alexander-Walker', 20.3, 3.5, 3.4, 27.2);
 INSERT INTO public.averages (id, player_name, player_pts, player_reb, player_ast, player_pra) VALUES (383, 'Nicolas Batum', 4.6, 2.7, 0.8, 8.1);
 INSERT INTO public.averages (id, player_name, player_pts, player_reb, player_ast, player_pra) VALUES (384, 'Nigel Hayes-Davis', 1.3, 1.2, 0.3, 2.8);
-INSERT INTO public.averages (id, player_name, player_pts, player_reb, player_ast, player_pra) VALUES (385, 'Nikola Joki─ç', 29.3, 12, 10.7, 52);
-INSERT INTO public.averages (id, player_name, player_pts, player_reb, player_ast, player_pra) VALUES (386, 'Nikola Jovi─ç', 8.2, 3.7, 2.5, 14.399999999999999);
-INSERT INTO public.averages (id, player_name, player_pts, player_reb, player_ast, player_pra) VALUES (387, 'Nikola Vu─ìevi─ç', 16.9, 9, 3.8, 29.7);
+INSERT INTO public.averages (id, player_name, player_pts, player_reb, player_ast, player_pra) VALUES (385, 'Nikola Jokić', 29.3, 12, 10.7, 52);
+INSERT INTO public.averages (id, player_name, player_pts, player_reb, player_ast, player_pra) VALUES (386, 'Nikola Jović', 8.2, 3.7, 2.5, 14.399999999999999);
+INSERT INTO public.averages (id, player_name, player_pts, player_reb, player_ast, player_pra) VALUES (387, 'Nikola Vučević', 16.9, 9, 3.8, 29.7);
 INSERT INTO public.averages (id, player_name, player_pts, player_reb, player_ast, player_pra) VALUES (388, 'Nique Clifford', 5.7, 3, 1.3, 10);
 INSERT INTO public.averages (id, player_name, player_pts, player_reb, player_ast, player_pra) VALUES (389, 'Noa Essengue', 0, 0, 0, 0);
 INSERT INTO public.averages (id, player_name, player_pts, player_reb, player_ast, player_pra) VALUES (390, 'Noah Clowney', 13.1, 4.3, 1.9, 19.299999999999997);
@@ -650,7 +650,7 @@ INSERT INTO public.positions (id, player_name, player_position) VALUES (3, 'CJ M
 INSERT INTO public.positions (id, player_name, player_position) VALUES (4, 'Luke Kennard', 'G');
 INSERT INTO public.positions (id, player_name, player_position) VALUES (5, 'Dyson Daniels', 'G');
 INSERT INTO public.positions (id, player_name, player_position) VALUES (6, 'Nickeil Alexander-Walker', 'G');
-INSERT INTO public.positions (id, player_name, player_position) VALUES (7, 'Kristaps Porzi┼å─úis', 'F-C');
+INSERT INTO public.positions (id, player_name, player_position) VALUES (7, 'Kristaps Porziņģis', 'F-C');
 INSERT INTO public.positions (id, player_name, player_position) VALUES (8, 'Christian Koloko', 'C');
 INSERT INTO public.positions (id, player_name, player_position) VALUES (9, 'RayJ Dennis', 'G');
 INSERT INTO public.positions (id, player_name, player_position) VALUES (10, 'Zaccharie Risacher', 'F');
@@ -683,7 +683,7 @@ INSERT INTO public.positions (id, player_name, player_position) VALUES (36, 'Zia
 INSERT INTO public.positions (id, player_name, player_position) VALUES (37, 'Danny Wolf', 'F');
 INSERT INTO public.positions (id, player_name, player_position) VALUES (38, 'Drake Powell', 'G-F');
 INSERT INTO public.positions (id, player_name, player_position) VALUES (39, 'Haywood Highsmith', 'F');
-INSERT INTO public.positions (id, player_name, player_position) VALUES (40, 'Egor D├½min', 'G');
+INSERT INTO public.positions (id, player_name, player_position) VALUES (40, 'Egor Dëmin', 'G');
 INSERT INTO public.positions (id, player_name, player_position) VALUES (41, 'E.J. Liddell', 'F');
 INSERT INTO public.positions (id, player_name, player_position) VALUES (42, 'Tyson Etienne', 'G');
 INSERT INTO public.positions (id, player_name, player_position) VALUES (43, 'Tyrese Martin', 'F');
@@ -719,7 +719,7 @@ INSERT INTO public.positions (id, player_name, player_position) VALUES (72, 'Cob
 INSERT INTO public.positions (id, player_name, player_position) VALUES (73, 'Josh Giddey', 'G');
 INSERT INTO public.positions (id, player_name, player_position) VALUES (74, 'Dalen Terry', 'F');
 INSERT INTO public.positions (id, player_name, player_position) VALUES (75, 'Yuki Kawamura', 'G');
-INSERT INTO public.positions (id, player_name, player_position) VALUES (76, 'Nikola Vu─ìevi─ç', 'C');
+INSERT INTO public.positions (id, player_name, player_position) VALUES (76, 'Nikola Vučević', 'C');
 INSERT INTO public.positions (id, player_name, player_position) VALUES (77, 'Ayo Dosunmu', 'G');
 INSERT INTO public.positions (id, player_name, player_position) VALUES (78, 'Zach Collins', 'F-C');
 INSERT INTO public.positions (id, player_name, player_position) VALUES (79, 'Kevin Huerter', 'G-F');
@@ -741,7 +741,7 @@ INSERT INTO public.positions (id, player_name, player_position) VALUES (94, 'Eva
 INSERT INTO public.positions (id, player_name, player_position) VALUES (95, 'Sam Merrill', 'G');
 INSERT INTO public.positions (id, player_name, player_position) VALUES (96, 'Craig Porter Jr.', 'G');
 INSERT INTO public.positions (id, player_name, player_position) VALUES (97, 'Darius Garland', 'G');
-INSERT INTO public.positions (id, player_name, player_position) VALUES (98, 'Dennis Schr├╢der', 'G');
+INSERT INTO public.positions (id, player_name, player_position) VALUES (98, 'Dennis Schröder', 'G');
 INSERT INTO public.positions (id, player_name, player_position) VALUES (99, 'Jaylon Tyson', 'G-F');
 INSERT INTO public.positions (id, player_name, player_position) VALUES (100, 'Larry Nance Jr.', 'F-C');
 INSERT INTO public.positions (id, player_name, player_position) VALUES (101, 'Keon Ellis', 'G');
@@ -777,7 +777,7 @@ INSERT INTO public.positions (id, player_name, player_position) VALUES (130, 'Pe
 INSERT INTO public.positions (id, player_name, player_position) VALUES (131, 'Tim Hardaway Jr.', 'G-F');
 INSERT INTO public.positions (id, player_name, player_position) VALUES (132, 'Bruce Brown', 'G-F');
 INSERT INTO public.positions (id, player_name, player_position) VALUES (133, 'DaRon Holmes II', 'F');
-INSERT INTO public.positions (id, player_name, player_position) VALUES (134, 'Nikola Joki─ç', 'C');
+INSERT INTO public.positions (id, player_name, player_position) VALUES (134, 'Nikola Jokić', 'C');
 INSERT INTO public.positions (id, player_name, player_position) VALUES (135, 'Jonas Valan─ìi┼½nas', 'C');
 INSERT INTO public.positions (id, player_name, player_position) VALUES (136, 'Spencer Jones', 'F');
 INSERT INTO public.positions (id, player_name, player_position) VALUES (137, 'Zeke Nnaji', 'F-C');
@@ -888,7 +888,7 @@ INSERT INTO public.positions (id, player_name, player_position) VALUES (241, 'Dr
 INSERT INTO public.positions (id, player_name, player_position) VALUES (242, 'Rui Hachimura', 'F');
 INSERT INTO public.positions (id, player_name, player_position) VALUES (243, 'Chris Ma├▒on', 'G');
 INSERT INTO public.positions (id, player_name, player_position) VALUES (244, 'Marcus Smart', 'G');
-INSERT INTO public.positions (id, player_name, player_position) VALUES (245, 'Luka Don─ìi─ç', 'F-G');
+INSERT INTO public.positions (id, player_name, player_position) VALUES (245, 'Luka Dončić', 'F-G');
 INSERT INTO public.positions (id, player_name, player_position) VALUES (246, 'Jahmai Mashack', 'G');
 INSERT INTO public.positions (id, player_name, player_position) VALUES (247, 'Jaylen Wells', 'F');
 INSERT INTO public.positions (id, player_name, player_position) VALUES (248, 'Scotty Pippen Jr.', 'G');
@@ -909,7 +909,7 @@ INSERT INTO public.positions (id, player_name, player_position) VALUES (262, 'GG
 INSERT INTO public.positions (id, player_name, player_position) VALUES (263, 'John Konchar', 'G');
 INSERT INTO public.positions (id, player_name, player_position) VALUES (264, 'Simone Fontecchio', 'F');
 INSERT INTO public.positions (id, player_name, player_position) VALUES (265, 'Terry Rozier', 'G');
-INSERT INTO public.positions (id, player_name, player_position) VALUES (266, 'Nikola Jovi─ç', 'F');
+INSERT INTO public.positions (id, player_name, player_position) VALUES (266, 'Nikola Jović', 'F');
 INSERT INTO public.positions (id, player_name, player_position) VALUES (267, 'Kel''el Ware', 'C');
 INSERT INTO public.positions (id, player_name, player_position) VALUES (268, 'Pelle Larsson', 'G');
 INSERT INTO public.positions (id, player_name, player_position) VALUES (269, 'Jaime Jaquez Jr.', 'G');
@@ -1146,7 +1146,7 @@ INSERT INTO public.positions (id, player_name, player_position) VALUES (499, 'Ky
 INSERT INTO public.positions (id, player_name, player_position) VALUES (500, 'Lauri Markkanen', 'F-C');
 INSERT INTO public.positions (id, player_name, player_position) VALUES (501, 'Walker Kessler', 'C');
 INSERT INTO public.positions (id, player_name, player_position) VALUES (502, 'Brice Sensabaugh', 'F');
-INSERT INTO public.positions (id, player_name, player_position) VALUES (503, 'Jusuf Nurki─ç', 'C');
+INSERT INTO public.positions (id, player_name, player_position) VALUES (503, 'Jusuf Nurkić', 'C');
 INSERT INTO public.positions (id, player_name, player_position) VALUES (504, 'Georges Niang', 'F');
 INSERT INTO public.positions (id, player_name, player_position) VALUES (505, 'Oscar Tshiebwe', 'F-C');
 INSERT INTO public.positions (id, player_name, player_position) VALUES (506, 'Kevin Love', 'F-C');
@@ -1174,22 +1174,22 @@ INSERT INTO public.positions (id, player_name, player_position) VALUES (524, 'Ma
 -- Data for Name: top_usage_players; Type: TABLE DATA; Schema: public; Owner: arrbo
 --
 
-INSERT INTO public.top_usage_players (team_id, player1_name, player1_usage, player2_name, player2_usage, player3_name, player3_usage, player4_name, player4_usage, player5_name, player5_usage) VALUES (1, 'Jalen Johnson', 0.264, 'Kristaps Porzi┼å─úis', 0.259, 'CJ McCollum', 0.244, 'Nickeil Alexander-Walker', 0.238, 'RayJ Dennis', 0.2);
+INSERT INTO public.top_usage_players (team_id, player1_name, player1_usage, player2_name, player2_usage, player3_name, player3_usage, player4_name, player4_usage, player5_name, player5_usage) VALUES (1, 'Jalen Johnson', 0.264, 'Kristaps Porziņģis', 0.259, 'CJ McCollum', 0.244, 'Nickeil Alexander-Walker', 0.238, 'RayJ Dennis', 0.2);
 INSERT INTO public.top_usage_players (team_id, player1_name, player1_usage, player2_name, player2_usage, player3_name, player3_usage, player4_name, player4_usage, player5_name, player5_usage) VALUES (2, 'Jaylen Brown', 0.358, 'Derrick White', 0.228, 'Anfernee Simons', 0.228, 'Payton Pritchard', 0.204, 'Ron Harper Jr.', 0.189);
-INSERT INTO public.top_usage_players (team_id, player1_name, player1_usage, player2_name, player2_usage, player3_name, player3_usage, player4_name, player4_usage, player5_name, player5_usage) VALUES (3, 'Cam Thomas', 0.299, 'Michael Porter Jr.', 0.295, 'Noah Clowney', 0.207, 'Danny Wolf', 0.189, 'Egor D├½min', 0.188);
+INSERT INTO public.top_usage_players (team_id, player1_name, player1_usage, player2_name, player2_usage, player3_name, player3_usage, player4_name, player4_usage, player5_name, player5_usage) VALUES (3, 'Cam Thomas', 0.299, 'Michael Porter Jr.', 0.295, 'Noah Clowney', 0.207, 'Danny Wolf', 0.189, 'Egor Dëmin', 0.188);
 INSERT INTO public.top_usage_players (team_id, player1_name, player1_usage, player2_name, player2_usage, player3_name, player3_usage, player4_name, player4_usage, player5_name, player5_usage) VALUES (4, 'LaMelo Ball', 0.306, 'Brandon Miller', 0.282, 'Collin Sexton', 0.25, 'Tre Mann', 0.232, 'Miles Bridges', 0.229);
-INSERT INTO public.top_usage_players (team_id, player1_name, player1_usage, player2_name, player2_usage, player3_name, player3_usage, player4_name, player4_usage, player5_name, player5_usage) VALUES (5, 'Coby White', 0.266, 'Josh Giddey', 0.25, 'Nikola Vu─ìevi─ç', 0.215, 'Matas Buzelis', 0.21, 'Ayo Dosunmu', 0.203);
-INSERT INTO public.top_usage_players (team_id, player1_name, player1_usage, player2_name, player2_usage, player3_name, player3_usage, player4_name, player4_usage, player5_name, player5_usage) VALUES (6, 'Donovan Mitchell', 0.314, 'Darius Garland', 0.25, 'Dennis Schr├╢der', 0.222, 'Evan Mobley', 0.216, 'Tyrese Proctor', 0.205);
+INSERT INTO public.top_usage_players (team_id, player1_name, player1_usage, player2_name, player2_usage, player3_name, player3_usage, player4_name, player4_usage, player5_name, player5_usage) VALUES (5, 'Coby White', 0.266, 'Josh Giddey', 0.25, 'Nikola Vučević', 0.215, 'Matas Buzelis', 0.21, 'Ayo Dosunmu', 0.203);
+INSERT INTO public.top_usage_players (team_id, player1_name, player1_usage, player2_name, player2_usage, player3_name, player3_usage, player4_name, player4_usage, player5_name, player5_usage) VALUES (6, 'Donovan Mitchell', 0.314, 'Darius Garland', 0.25, 'Dennis Schröder', 0.222, 'Evan Mobley', 0.216, 'Tyrese Proctor', 0.205);
 INSERT INTO public.top_usage_players (team_id, player1_name, player1_usage, player2_name, player2_usage, player3_name, player3_usage, player4_name, player4_usage, player5_name, player5_usage) VALUES (7, 'Anthony Davis', 0.272, 'D''Angelo Russell', 0.261, 'Brandon Williams', 0.245, 'Cooper Flagg', 0.241, 'Jaden Hardy', 0.229);
-INSERT INTO public.top_usage_players (team_id, player1_name, player1_usage, player2_name, player2_usage, player3_name, player3_usage, player4_name, player4_usage, player5_name, player5_usage) VALUES (8, 'Nikola Joki─ç', 0.292, 'Jamal Murray', 0.274, 'Jonas Valan─ìi┼½nas', 0.261, 'Aaron Gordon', 0.228, 'Curtis Jones', 0.211);
+INSERT INTO public.top_usage_players (team_id, player1_name, player1_usage, player2_name, player2_usage, player3_name, player3_usage, player4_name, player4_usage, player5_name, player5_usage) VALUES (8, 'Nikola Jokić', 0.292, 'Jamal Murray', 0.274, 'Jonas Valančiūnas', 0.261, 'Aaron Gordon', 0.228, 'Curtis Jones', 0.211);
 INSERT INTO public.top_usage_players (team_id, player1_name, player1_usage, player2_name, player2_usage, player3_name, player3_usage, player4_name, player4_usage, player5_name, player5_usage) VALUES (9, 'Cade Cunningham', 0.296, 'Jalen Duren', 0.221, 'Marcus Sasser', 0.213, 'Daniss Jenkins', 0.207, 'Jaden Ivey', 0.198);
 INSERT INTO public.top_usage_players (team_id, player1_name, player1_usage, player2_name, player2_usage, player3_name, player3_usage, player4_name, player4_usage, player5_name, player5_usage) VALUES (10, 'Stephen Curry', 0.311, 'LJ Cryer', 0.263, 'Jonathan Kuminga', 0.239, 'De''Anthony Melton', 0.238, 'Jimmy Butler III', 0.226);
 INSERT INTO public.top_usage_players (team_id, player1_name, player1_usage, player2_name, player2_usage, player3_name, player3_usage, player4_name, player4_usage, player5_name, player5_usage) VALUES (11, 'Alperen Sengun', 0.265, 'Kevin Durant', 0.26, 'Reed Sheppard', 0.205, 'Amen Thompson', 0.198, 'Tari Eason', 0.197);
 INSERT INTO public.top_usage_players (team_id, player1_name, player1_usage, player2_name, player2_usage, player3_name, player3_usage, player4_name, player4_usage, player5_name, player5_usage) VALUES (12, 'Pascal Siakam', 0.281, 'T.J. McConnell', 0.237, 'Andrew Nembhard', 0.234, 'Obi Toppin', 0.232, 'Bennedict Mathurin', 0.229);
 INSERT INTO public.top_usage_players (team_id, player1_name, player1_usage, player2_name, player2_usage, player3_name, player3_usage, player4_name, player4_usage, player5_name, player5_usage) VALUES (13, 'Kawhi Leonard', 0.319, 'James Harden', 0.301, 'Bradley Beal', 0.224, 'TyTy Washington Jr.', 0.191, 'Jordan Miller', 0.189);
-INSERT INTO public.top_usage_players (team_id, player1_name, player1_usage, player2_name, player2_usage, player3_name, player3_usage, player4_name, player4_usage, player5_name, player5_usage) VALUES (14, 'Luka Don─ìi─ç', 0.365, 'Austin Reaves', 0.276, 'LeBron James', 0.271, 'Nick Smith Jr.', 0.204, 'Deandre Ayton', 0.171);
+INSERT INTO public.top_usage_players (team_id, player1_name, player1_usage, player2_name, player2_usage, player3_name, player3_usage, player4_name, player4_usage, player5_name, player5_usage) VALUES (14, 'Luka Dončić', 0.365, 'Austin Reaves', 0.276, 'LeBron James', 0.271, 'Nick Smith Jr.', 0.204, 'Deandre Ayton', 0.171);
 INSERT INTO public.top_usage_players (team_id, player1_name, player1_usage, player2_name, player2_usage, player3_name, player3_usage, player4_name, player4_usage, player5_name, player5_usage) VALUES (15, 'Ty Jerome', 0.333, 'Ja Morant', 0.305, 'Jaren Jackson Jr.', 0.247, 'Cedric Coward', 0.203, 'Zach Edey', 0.2);
-INSERT INTO public.top_usage_players (team_id, player1_name, player1_usage, player2_name, player2_usage, player3_name, player3_usage, player4_name, player4_usage, player5_name, player5_usage) VALUES (16, 'Norman Powell', 0.263, 'Tyler Herro', 0.247, 'Bam Adebayo', 0.234, 'Jaime Jaquez Jr.', 0.214, 'Nikola Jovi─ç', 0.205);
+INSERT INTO public.top_usage_players (team_id, player1_name, player1_usage, player2_name, player2_usage, player3_name, player3_usage, player4_name, player4_usage, player5_name, player5_usage) VALUES (16, 'Norman Powell', 0.263, 'Tyler Herro', 0.247, 'Bam Adebayo', 0.234, 'Jaime Jaquez Jr.', 0.214, 'Nikola Jović', 0.205);
 INSERT INTO public.top_usage_players (team_id, player1_name, player1_usage, player2_name, player2_usage, player3_name, player3_usage, player4_name, player4_usage, player5_name, player5_usage) VALUES (17, 'Giannis Antetokounmpo', 0.349, 'Cole Anthony', 0.245, 'Kevin Porter Jr.', 0.232, 'Ryan Rollins', 0.227, 'Bobby Portis', 0.22);
 INSERT INTO public.top_usage_players (team_id, player1_name, player1_usage, player2_name, player2_usage, player3_name, player3_usage, player4_name, player4_usage, player5_name, player5_usage) VALUES (18, 'Anthony Edwards', 0.306, 'Julius Randle', 0.261, 'Rob Dillingham', 0.228, 'Naz Reid', 0.213, 'Johnny Juzang', 0.212);
 INSERT INTO public.top_usage_players (team_id, player1_name, player1_usage, player2_name, player2_usage, player3_name, player3_usage, player4_name, player4_usage, player5_name, player5_usage) VALUES (19, 'Hunter Dickinson', 0.333, 'Zion Williamson', 0.263, 'Jordan Poole', 0.24, 'Jeremiah Fears', 0.239, 'Derik Queen', 0.22);
@@ -1202,7 +1202,7 @@ INSERT INTO public.top_usage_players (team_id, player1_name, player1_usage, play
 INSERT INTO public.top_usage_players (team_id, player1_name, player1_usage, player2_name, player2_usage, player3_name, player3_usage, player4_name, player4_usage, player5_name, player5_usage) VALUES (26, 'Russell Westbrook', 0.249, 'Zach LaVine', 0.237, 'Malik Monk', 0.228, 'De''Andre Hunter', 0.219, 'Domantas Sabonis', 0.219);
 INSERT INTO public.top_usage_players (team_id, player1_name, player1_usage, player2_name, player2_usage, player3_name, player3_usage, player4_name, player4_usage, player5_name, player5_usage) VALUES (27, 'Victor Wembanyama', 0.32, 'De''Aaron Fox', 0.247, 'Stephon Castle', 0.247, 'Dylan Harper', 0.227, 'Keldon Johnson', 0.192);
 INSERT INTO public.top_usage_players (team_id, player1_name, player1_usage, player2_name, player2_usage, player3_name, player3_usage, player4_name, player4_usage, player5_name, player5_usage) VALUES (28, 'Brandon Ingram', 0.268, 'RJ Barrett', 0.254, 'Scottie Barnes', 0.233, 'Chucky Hepburn', 0.219, 'Immanuel Quickley', 0.21);
-INSERT INTO public.top_usage_players (team_id, player1_name, player1_usage, player2_name, player2_usage, player3_name, player3_usage, player4_name, player4_usage, player5_name, player5_usage) VALUES (29, 'Keyonte George', 0.271, 'Lauri Markkanen', 0.264, 'Brice Sensabaugh', 0.22, 'Jusuf Nurki─ç', 0.189, 'Ace Bailey', 0.188);
+INSERT INTO public.top_usage_players (team_id, player1_name, player1_usage, player2_name, player2_usage, player3_name, player3_usage, player4_name, player4_usage, player5_name, player5_usage) VALUES (29, 'Keyonte George', 0.271, 'Lauri Markkanen', 0.264, 'Brice Sensabaugh', 0.22, 'Jusuf Nurkić', 0.189, 'Ace Bailey', 0.188);
 INSERT INTO public.top_usage_players (team_id, player1_name, player1_usage, player2_name, player2_usage, player3_name, player3_usage, player4_name, player4_usage, player5_name, player5_usage) VALUES (30, 'Trae Young', 0.268, 'Tristan Vukcevic', 0.253, 'Alex Sarr', 0.251, 'Cam Whitmore', 0.225, 'Kyshawn George', 0.219);
 
 

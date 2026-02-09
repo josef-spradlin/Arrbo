@@ -2,7 +2,7 @@
 import { computed, onMounted, ref, watch } from 'vue'
 import { usePlayersStore } from '@/stores/players'
 import type { EnrichedPlayer } from '@/types/dto'
-import { getGames } from '@/api/arrbo'
+import { getAvailableGameDates, getGames } from '@/api/arrbo'
 import LeadersTable from '@/components/LeadersTable.vue'
 
 type StatKey = 'projPts' | 'projReb' | 'projAst' | 'projPra'
@@ -12,14 +12,14 @@ const players = usePlayersStore()
 const loading = ref(false)
 const error = ref<string | null>(null)
 
-// Toggle: false=today, true=tomorrow
+// Toggle: false=today (lower date), true=tomorrow (higher date)
 const isTomorrow = ref(false)
 const selectedStat = ref<StatKey>('projPts')
 
-const todayStr = new Date().toISOString().slice(0, 10)
-const tomorrowStr = new Date(Date.now() + 86400000).toISOString().slice(0, 10)
+const todayDate = ref<string>('')    // lower date
+const tomorrowDate = ref<string>('') // higher date
 
-const dayToDate = computed(() => (isTomorrow.value ? tomorrowStr : todayStr))
+const dayToDate = computed(() => (isTomorrow.value ? tomorrowDate.value : todayDate.value))
 const dayLabel = computed(() => (isTomorrow.value ? 'Tomorrow' : 'Today'))
 
 const cache = ref<Record<string, EnrichedPlayer[]>>({})
@@ -31,8 +31,32 @@ const statLabel: Record<StatKey, string> = {
   projPra: 'PRA',
 }
 
+function pickTodayAndTomorrow(datesAsc: string[]) {
+  if (!datesAsc || datesAsc.length === 0) {
+    todayDate.value = ''
+    tomorrowDate.value = ''
+    return
+  }
+
+  if (datesAsc.length === 1) {
+    todayDate.value = datesAsc[0]
+    tomorrowDate.value = datesAsc[0]
+    return
+  }
+
+  // Use the last two available dates, then sort so [0]=lower, [1]=higher
+  const last = datesAsc[datesAsc.length - 1]
+  const prev = datesAsc[datesAsc.length - 2]
+  const pair = [prev, last].sort()
+
+  todayDate.value = pair[0]
+  tomorrowDate.value = pair[1]
+}
+
 async function ensureProjectedPlayersForDate(date: string) {
+  if (!date) return
   if (cache.value[date]) return
+
   await players.ensureDataLoaded()
   const games = await getGames(date)
   const allProjected = games.flatMap((g) => players.projectPlayersForGame(g))
@@ -58,11 +82,25 @@ async function loadCurrentDay() {
   }
 }
 
+// When toggle changes, make sure that day is computed/loaded
 watch(isTomorrow, async () => {
   await loadCurrentDay()
 })
 
 onMounted(async () => {
+  try {
+    const dates = await getAvailableGameDates()
+    pickTodayAndTomorrow(dates)
+
+    // Preload both so toggle is instant
+    await Promise.all([
+      ensureProjectedPlayersForDate(todayDate.value),
+      ensureProjectedPlayersForDate(tomorrowDate.value),
+    ])
+  } catch (e: any) {
+    error.value = e?.message ?? 'Failed to load league leaders'
+  }
+
   await loadCurrentDay()
 })
 </script>

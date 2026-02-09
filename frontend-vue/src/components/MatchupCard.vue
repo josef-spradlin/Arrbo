@@ -16,7 +16,6 @@ defineProps<{
       <div class="font-semibold">
         {{ game.awayTeamAbbr }} <span class="opacity-60">@</span> {{ game.homeTeamAbbr }}
       </div>
-      <span class="badge badge-ghost">{{ game.gameDate }}</span>
     </div>
 
     <div v-if="loading" class="alert">

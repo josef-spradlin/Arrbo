@@ -5,6 +5,7 @@ import { usePlayersStore } from '@/stores/players'
 import GameList from '@/components/GameList.vue'
 import MatchupCard from '@/components/MatchupCard.vue'
 import PlayerTable from '@/components/PlayerTable.vue'
+import { getAvailableGameDates } from '@/api/arrbo'
 
 function yyyyMmDd(d: Date) {
   const y = d.getFullYear()
@@ -16,26 +17,25 @@ function yyyyMmDd(d: Date) {
 const gamesStore = useGamesStore()
 const playersStore = usePlayersStore()
 
-const today = ref(yyyyMmDd(new Date()))
-const tomorrow = ref(yyyyMmDd(new Date(Date.now() + 24 * 60 * 60 * 1000)))
+// Today = lower date (earlier), Tomorrow = higher date (later)
+const primaryDate = ref<string>('')   // Today
+const secondaryDate = ref<string>('') // Tomorrow
 
-//Toggle: false = today, true = tomorrow
+// Toggle: false = Today (primary), true = Tomorrow (secondary)
 const isTomorrow = ref(false)
 
 const dayLabel = computed(() => (isTomorrow.value ? 'Tomorrow' : 'Today'))
-const dayDate = computed(() => (isTomorrow.value ? tomorrow.value : today.value))
+const dayDate = computed(() => (isTomorrow.value ? secondaryDate.value : primaryDate.value))
 
-const todayGames = computed(() => gamesStore.gamesByDate[today.value] ?? [])
-const tomorrowGames = computed(() => gamesStore.gamesByDate[tomorrow.value] ?? [])
-
-const dayGames = computed(() => (isTomorrow.value ? tomorrowGames.value : todayGames.value))
+const primaryGames = computed(() => gamesStore.gamesByDate[primaryDate.value] ?? [])
+const secondaryGames = computed(() => gamesStore.gamesByDate[secondaryDate.value] ?? [])
+const dayGames = computed(() => (isTomorrow.value ? secondaryGames.value : primaryGames.value))
 
 async function selectGameSafe(game: any | undefined) {
   if (!game) return
   if (playersStore.selectedGame?.gameId === game.gameId) return
   await playersStore.selectGame(game)
 }
-
 
 async function autoSelectFirstGameForCurrentDay() {
   const list = dayGames.value
@@ -50,14 +50,56 @@ async function autoSelectFirstGameForCurrentDay() {
   }
 }
 
+function pickTodayAndTomorrow(dates: string[]) {
+  const todayStr = yyyyMmDd(new Date())
+
+  if (!dates || dates.length === 0) {
+    primaryDate.value = todayStr
+    secondaryDate.value = todayStr
+    return
+  }
+
+  // Normalize + sort ascending
+  const asc = [...new Set(dates)].sort()
+
+  if (asc.length === 1) {
+    primaryDate.value = asc[0]
+    secondaryDate.value = asc[0]
+    return
+  }
+
+  // Take the most recent 2 dates in DB since the data base will always have only two days worth of games (today and tomorrow, or the two days in seed mode)
+  const d1 = asc[asc.length - 2]
+  const d2 = asc[asc.length - 1]
+
+  // Force Today=lower, Tomorrow=higher
+  primaryDate.value = d1
+  secondaryDate.value = d2
+}
+
+async function ensureDayLoaded(date: string) {
+  if (!date) return
+  if (gamesStore.gamesByDate[date]) return
+  await gamesStore.load(date)
+}
+
 onMounted(async () => {
-  await Promise.all([gamesStore.load(today.value), gamesStore.load(tomorrow.value)])
-  // always show something immediately
+  const dates = await getAvailableGameDates()
+  pickTodayAndTomorrow(dates)
+
+  await Promise.all([
+    ensureDayLoaded(primaryDate.value),
+    ensureDayLoaded(secondaryDate.value),
+  ])
+
+  // Default to "Today" view
+  isTomorrow.value = false
   await autoSelectFirstGameForCurrentDay()
 })
 
-// when toggle changes, select first game of that day
+// When toggle changes: ensure that day's games are loaded, then auto-select
 watch(isTomorrow, async () => {
+  await ensureDayLoaded(dayDate.value)
   await autoSelectFirstGameForCurrentDay()
 })
 

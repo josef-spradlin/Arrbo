@@ -33,5 +33,15 @@ public class GameController {
     return repo.findById(gameId).orElseThrow(() -> new RuntimeException("Game not found: " + gameId));
   }
 
-  
+  @GetMapping("/latest-date") //Returns latest game date in DB in case there are no games for the current date (e.g. offseason)
+  public LocalDate latestDate() {
+    LocalDate d = repo.findMaxGameDate();
+    if (d == null) throw new RuntimeException("No games found");
+    return d;
+  }
+
+  @GetMapping("/available-dates")
+  public List<String> availableDates() {
+    return repo.findAvailableGameDateStringsAsc();
+  }
 }

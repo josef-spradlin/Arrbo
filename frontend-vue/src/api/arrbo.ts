@@ -43,9 +43,25 @@ function mapPosition(posRaw: string): PlayerPositionDto['position'] {
 }
 
 export async function getGames(date: string) {
+  //Try requested date first today
   const { data } = await http.get<GameDto[]>('/api/games', { params: { date } })
-  return data
+  if (data && data.length > 0) return data
+
+  // Fallback: ask API for latest available game date in DB
+  // Works for: offseason, no-games days, old seed data
+  try {
+    const latestResp = await http.get<string>('/api/games/latest-date')
+    const latest = (latestResp.data ?? '').toString().trim()
+
+    if (!latest || latest === date) return data
+
+    const fallback = await http.get<GameDto[]>('/api/games', { params: { date: latest } })
+    return fallback.data
+  } catch {
+    return data
+  }
 }
+
 
 export async function getTopUsagePlayers() {
   const { data } = await http.get<UsageTopRawDto[]>('/api/usage/top')
@@ -116,6 +132,12 @@ export async function getPositions() {
 
   return normalized
 }
+
+export async function getAvailableGameDates(): Promise<string[]> {
+  const { data } = await http.get<string[]>('/api/games/available-dates')
+  return data
+}
+
 
 export async function getDefensiveEfficiency() {
   const { data } = await http.get<DefensiveEfficiencyRawDto[]>('/api/defense/efficiency')
