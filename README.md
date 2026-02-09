@@ -45,15 +45,21 @@ This project emphasizes **system correctness**, **reliability**, and **automatio
 ## High-Level Architecture
 
 PostgreSQL
+
 ├── Flyway migrations (schema + seed data)
+
 ├── Python ingestion (ETL-style population)
 
 Spring Boot API
+
 ├── REST endpoints
+
 ├── Health checks
+
 └── Repository-based data access
 
 Vue Frontend
+
 └── Used for headless UI test validation
 
 
@@ -73,15 +79,25 @@ Tests are organized by type using `pytest` markers and run consistently across l
 ## Project Structure
 
 backend-springboot/ # Spring Boot API + Flyway migrations
+
 ingestion-python/ # ETL-style ingestion and seeding
+
 frontend-vue/ # Vue frontend
+
 tests/
+
 ├── db/ # Database integrity tests
+
 ├── api/ # API contract & smoke tests
+
 ├── perf/ # Performance regression tests
+
 └── ui/ # UI end-to-end tests
+
 ci/
+
 └── seed.sql # Deterministic seed data for CI
+
 run.py # One command runner for all workflows
 
 
